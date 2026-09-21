@@ -1,0 +1,29 @@
+spring:
+
+  application:
+    name: gitStatus
+
+  data:
+
+    mongodb:
+      uri: mongodb+srv://burusho:burusho786@cluster1.klvxrzu.mongodb.net/gitStatus?retryWrites=true&w=majority&appName=Cluster1
+
+    redis:
+      host: localhost
+      port: 6379
+
+  cache:
+    type: redis
+
+github:
+  token: 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
+
+scheduler:
+  cron: "0 0 2 * * *"
+
+server:
+  port: 8080
+
+ollama:
+  base-url: http://localhost:11434
+  model: gemma3:4b

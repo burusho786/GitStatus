@@ -1,0 +1,748 @@
+<!-- src/main/resources/static/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitStatus — Trending Repositories</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+    <style>
+        /* ─────────────────────────────────────────────────
+           MINIMAL YET WARM
+           80% eggshell/cream · 15% taupe · 5% jelly-bean red
+           ───────────────────────────────────────────────── */
+        :root {
+            /* Base neutrals — large surfaces */
+            --bg:            #FAF6EC;   /* eggshell white */
+            --bg-elevated:   #F4EBD6;   /* dark vanilla */
+            --bg-card:       #FFFFFF;   /* clean card surface */
+            --bg-hover:      #F8F1DE;
+
+            /* Borders */
+            --border:        #E8DCC0;
+            --border-strong: #D5C5A0;
+
+            /* Text */
+            --text:          #3A3229;   /* deep warm brown */
+            --text-muted:    #8B7E6E;   /* taupe gray */
+            --text-dim:      #A89B87;
+
+            /* Accent — reserved for focus points only */
+            --accent:        #E63946;   /* jelly bean red */
+            --accent-hover:  #C42E3A;
+            --accent-tint:   #FBE8E8;
+
+            --radius:        8px;
+            --gap:           20px;
+        }
+
+        * { box-sizing: border-box; }
+
+        html, body {
+            margin: 0; padding: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont,
+                         'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-size: 15px;
+            line-height: 1.55;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+
+        /* ─── Header ─────────────────────────────────── */
+        .app-header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            padding-top: 22px;
+            padding-bottom: 22px;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: -0.02em;
+            color: var(--text);
+        }
+        .brand-mark { color: var(--accent); }
+
+        .tagline {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        /* ─── Controls ───────────────────────────────── */
+        .controls {
+            display: flex;
+            gap: var(--gap);
+            align-items: flex-end;
+            padding: 32px 0 24px;
+            flex-wrap: wrap;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .control-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .select {
+            background: var(--bg-card);
+            color: var(--text);
+            border: 1px solid var(--border-strong);
+            border-radius: var(--radius);
+            padding: 10px 36px 10px 14px;
+            font-size: 14px;
+            font-family: inherit;
+            font-weight: 500;
+            min-width: 180px;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='%238B7E6E' d='M6 8L0 0h12z'/></svg>");
+            background-repeat: no-repeat;
+            background-position: calc(100% - 14px) 50%;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+        .select:hover { border-color: var(--text-muted); }
+        .select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-tint);
+        }
+
+        .btn {
+            border: 1px solid var(--border-strong);
+            border-radius: var(--radius);
+            padding: 10px 22px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            background: var(--bg-card);
+            color: var(--text);
+            transition: all 0.15s ease;
+        }
+        .btn:hover:not(:disabled) {
+            background: var(--bg-hover);
+            border-color: var(--text-muted);
+        }
+        .btn:active:not(:disabled) {
+            transform: translateY(1px);
+        }
+        .btn:focus-visible {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-tint);
+        }
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Primary action — the ONLY red button on the page */
+        #refreshBtn {
+            background: var(--accent);
+            color: #ffffff;
+            border-color: var(--accent);
+        }
+        #refreshBtn:hover:not(:disabled) {
+            background: var(--accent-hover);
+            border-color: var(--accent-hover);
+        }
+
+        /* ─── Meta + Status ──────────────────────────── */
+        .meta {
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 500;
+            padding: 4px 0 20px;
+        }
+
+        .status {
+            padding: 32px;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-card);
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+        .status.error {
+            color: var(--accent-hover);
+            border-color: var(--accent);
+            background: var(--accent-tint);
+        }
+
+        /* ─── Grid ───────────────────────────────────── */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: var(--gap);
+            padding-bottom: 40px;
+        }
+
+        /* ─── Card ───────────────────────────────────── */
+        .card {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            position: relative;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(58, 50, 41, 0.04);
+        }
+        .card:hover {
+            border-color: var(--border-strong);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(58, 50, 41, 0.08);
+        }
+
+        /* Score seal — jelly-bean red highlight */
+        .score-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            z-index: 2;
+            background: var(--accent);
+            color: #ffffff;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            box-shadow: 0 2px 6px rgba(230, 57, 70, 0.28);
+        }
+
+        .card-head {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+
+        .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            flex-shrink: 0;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+        }
+
+        .card-title-block {
+            min-width: 0;
+            flex: 1;
+            padding-right: 72px;
+        }
+
+        .card-title {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            line-height: 1.3;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .card-title a {
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+        .card-title a:hover { color: var(--accent); }
+
+        .card-owner {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin: 4px 0 0;
+            font-weight: 400;
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin: 0;
+            line-height: 1.55;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 4.1em;
+        }
+
+        /* Badges — soft cream chips */
+        .badge {
+            display: inline-block;
+            padding: 4px 11px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 600;
+            background: var(--bg-elevated);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            letter-spacing: 0.02em;
+        }
+        .badge.category {
+            color: var(--text);
+            border-color: var(--border-strong);
+        }
+
+        /* Stats */
+        .card-stats {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            font-size: 12px;
+            color: var(--text-muted);
+            padding-top: 2px;
+        }
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .stat > span:first-child {
+            color: var(--text-dim);
+            font-size: 13px;
+        }
+        .stat-value {
+            color: var(--text);
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Card footer */
+        .card-foot {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            padding-top: 14px;
+            margin-top: auto;
+        }
+
+        /* ─── Pagination ─────────────────────────────── */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            padding: 24px 0 56px;
+            border-top: 1px solid var(--border);
+        }
+        .page-info {
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 500;
+            min-width: 140px;
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* ─── Footer ─────────────────────────────────── */
+        .app-footer {
+            border-top: 1px solid var(--border);
+            color: var(--text-dim);
+            font-size: 13px;
+            padding: 28px 0;
+            margin-top: 24px;
+        }
+        .app-footer p {
+            margin: 0;
+            text-align: center;
+        }
+
+        /* ─── Responsive ─────────────────────────────── */
+        @media (max-width: 640px) {
+            .container { padding: 0 18px; }
+            .grid { grid-template-columns: 1fr; }
+            .controls { flex-direction: column; align-items: stretch; }
+            .select { width: 100%; }
+            .header-inner { padding-top: 18px; padding-bottom: 18px; }
+            .brand { font-size: 22px; }
+        }
+    </style>
+</head>
+<body>
+<header class="app-header">
+    <div class="container header-inner">
+        <h1 class="brand"><span class="brand-mark">Git</span>Status</h1>
+        <p class="tagline">Trending repositories, ranked daily.</p>
+    </div>
+</header>
+
+<main class="container">
+    <section class="controls" aria-label="Filters">
+        <div class="control-group">
+            <label for="categorySelect" class="control-label">Category</label>
+            <select id="categorySelect" class="select">
+                <option value="">All categories</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <label for="pageSizeSelect" class="control-label">Per page</label>
+            <select id="pageSizeSelect" class="select">
+                <option value="12">12</option>
+                <option value="20" selected>20</option>
+                <option value="50">50</option>
+            </select>
+        </div>
+
+        <button id="refreshBtn" class="btn" type="button">Refresh</button>
+    </section>
+
+    <section id="meta" class="meta" aria-live="polite"></section>
+    <section id="status" class="status" aria-live="polite" hidden></section>
+    <section id="grid" class="grid" aria-label="Repositories"></section>
+
+    <nav id="pagination" class="pagination" aria-label="Pagination" hidden>
+        <button id="prevBtn" class="btn" type="button">← Previous</button>
+        <span id="pageInfo" class="page-info"></span>
+        <button id="nextBtn" class="btn" type="button">Next →</button>
+    </nav>
+</main>
+
+<footer class="app-footer">
+    <div class="container">
+        <p>Data from the GitHub REST API. Not affiliated with GitHub, Inc.</p>
+    </div>
+</footer>
+
+<script>
+    'use strict';
+
+    (() => {
+        const API_BASE = '/api/repos';
+
+        const state = {
+            page: 0,
+            size: 20,
+            category: '',
+            total: 0,
+            items: [],
+            loading: false,
+        };
+
+        const el = {
+            categorySelect: document.getElementById('categorySelect'),
+            pageSizeSelect: document.getElementById('pageSizeSelect'),
+            refreshBtn:    document.getElementById('refreshBtn'),
+            meta:          document.getElementById('meta'),
+            status:        document.getElementById('status'),
+            grid:          document.getElementById('grid'),
+            pagination:    document.getElementById('pagination'),
+            prevBtn:       document.getElementById('prevBtn'),
+            nextBtn:       document.getElementById('nextBtn'),
+            pageInfo:      document.getElementById('pageInfo'),
+        };
+
+        function formatCount(n) {
+            if (n == null) return '—';
+            if (n < 1000) return String(n);
+            if (n < 1_000_000) return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+            return (n / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
+        }
+
+        function formatDate(iso) {
+            if (!iso) return '—';
+            const d = new Date(iso);
+            if (Number.isNaN(d.getTime())) return '—';
+            return d.toLocaleDateString(undefined, {
+                year: 'numeric', month: 'short', day: 'numeric',
+            });
+        }
+
+        function elem(tag, opts = {}) {
+            const node = document.createElement(tag);
+            if (opts.className) node.className = opts.className;
+            if (opts.text != null) node.textContent = String(opts.text);
+            if (opts.attrs) {
+                for (const [k, v] of Object.entries(opts.attrs)) {
+                    if (v != null) node.setAttribute(k, String(v));
+                }
+            }
+            return node;
+        }
+
+        function setStatus(message, isError = false) {
+            if (!message) {
+                el.status.hidden = true;
+                el.status.textContent = '';
+                el.status.classList.remove('error');
+                return;
+            }
+            el.status.hidden = false;
+            el.status.textContent = message;
+            el.status.classList.toggle('error', isError);
+        }
+
+        function stat(symbol, value) {
+            const wrap = elem('span', { className: 'stat' });
+            wrap.appendChild(elem('span', { text: symbol, attrs: { 'aria-hidden': 'true' } }));
+            wrap.appendChild(elem('span', { className: 'stat-value', text: value }));
+            return wrap;
+        }
+
+        function renderCard(repo) {
+            const card = elem('article', { className: 'card' });
+
+            if (typeof repo.attentionScore === 'number') {
+                card.appendChild(elem('span', {
+                    className: 'score-badge',
+                    text: `${repo.attentionScore}`,
+                    attrs: { title: 'Attention score (0–100), computed by RankingService at ingestion' },
+                }));
+            } else if (typeof repo.score === 'number') {
+                card.appendChild(elem('span', {
+                    className: 'score-badge',
+                    text: formatCount(repo.score),
+                    attrs: { title: 'Raw ranking score computed by RankingService' },
+                }));
+            }
+
+            const head = elem('div', { className: 'card-head' });
+
+            const avatar = elem('img', {
+                className: 'avatar',
+                attrs: {
+                    src: repo.avatarUrl || '',
+                    alt: '',
+                    loading: 'lazy',
+                    referrerpolicy: 'no-referrer',
+                },
+            });
+            avatar.addEventListener('error', () => { avatar.style.visibility = 'hidden'; });
+            head.appendChild(avatar);
+
+            const titleBlock = elem('div', { className: 'card-title-block' });
+
+            const title = elem('h2', { className: 'card-title' });
+            const link = elem('a', {
+                text: repo.name || repo.fullName || 'unknown',
+                attrs: { href: repo.htmlUrl || '#', target: '_blank', rel: 'noopener noreferrer' },
+            });
+            title.appendChild(link);
+            titleBlock.appendChild(title);
+
+            titleBlock.appendChild(elem('p', {
+                className: 'card-owner',
+                text: repo.owner ? `@${repo.owner}` : '',
+            }));
+
+            head.appendChild(titleBlock);
+            card.appendChild(head);
+
+            card.appendChild(elem('p', {
+                className: 'card-desc',
+                text: repo.description || 'No description provided.',
+            }));
+
+            const stats = elem('div', { className: 'card-stats' });
+            stats.appendChild(stat('★', formatCount(repo.stars)));
+            stats.appendChild(stat('⑂', formatCount(repo.forks)));
+            stats.appendChild(stat('◎', formatCount(repo.issues)));
+            stats.appendChild(stat('⟳', formatDate(repo.updatedAt)));
+            card.appendChild(stats);
+
+            const foot = elem('div', { className: 'card-foot' });
+            if (repo.category) {
+                foot.appendChild(elem('span', { className: 'badge category', text: repo.category }));
+            }
+            if (repo.language) {
+                foot.appendChild(elem('span', { className: 'badge', text: repo.language }));
+            }
+            if (typeof repo.score === 'number') {
+                foot.appendChild(elem('span', {
+                    className: 'badge',
+                    text: `raw ${formatCount(repo.score)}`,
+                    attrs: { title: 'Weighted score from RankingService' },
+                }));
+            }
+            card.appendChild(foot);
+
+            return card;
+        }
+
+        function renderGrid(items) {
+            el.grid.replaceChildren();
+            if (!items.length) {
+                setStatus('No repositories match the current filters.');
+                return;
+            }
+            setStatus('');
+            const frag = document.createDocumentFragment();
+            for (const repo of items) frag.appendChild(renderCard(repo));
+            el.grid.appendChild(frag);
+        }
+
+        function renderMeta(total) {
+            if (!total) { el.meta.textContent = ''; return; }
+            const start = state.page * state.size + 1;
+            const end = Math.min(start + state.items.length - 1, total);
+            el.meta.textContent = `Showing ${start}–${end} of ${total} repositories`;
+        }
+
+        function renderPagination(total) {
+            const totalPages = Math.max(1, Math.ceil(total / state.size));
+            if (totalPages <= 1) {
+                el.pagination.hidden = true;
+                return;
+            }
+            el.pagination.hidden = false;
+            el.pageInfo.textContent = `Page ${state.page + 1} of ${totalPages}`;
+            el.prevBtn.disabled = state.page === 0;
+            el.nextBtn.disabled = state.page + 1 >= totalPages;
+        }
+
+        async function loadCategories() {
+            try {
+                const res = await fetch(`${API_BASE}/categories`, {
+                    headers: { Accept: 'application/json' },
+                });
+                if (!res.ok) return;
+                const cats = await res.json();
+                const current = el.categorySelect.value;
+                for (const c of cats) {
+                    el.categorySelect.appendChild(
+                        elem('option', { text: c, attrs: { value: c } })
+                    );
+                }
+                el.categorySelect.value = current;
+            } catch (err) {
+                console.warn('Failed to load categories', err);
+            }
+        }
+
+        async function loadRepos() {
+            if (state.loading) return;
+            state.loading = true;
+
+            el.prevBtn.disabled = true;
+            el.nextBtn.disabled = true;
+
+            setStatus('Loading…');
+
+            const params = new URLSearchParams({
+                page: String(state.page),
+                size: String(state.size),
+            });
+            const base = state.category
+                ? `${API_BASE}/category/${encodeURIComponent(state.category)}`
+                : API_BASE;
+
+            try {
+                const res = await fetch(`${base}?${params}`, {
+                    headers: { Accept: 'application/json' },
+                });
+
+                if (!res.ok) {
+                    let detail = `Request failed (${res.status})`;
+                    try {
+                        const problem = await res.json();
+                        if (problem && problem.detail) detail = problem.detail;
+                    } catch { /* not JSON */ }
+                    state.items = [];
+                    state.total = 0;
+                    renderGrid([]);
+                    renderMeta(0);
+                    setStatus(detail, true);
+                    return;
+                }
+
+                const body = await res.json();
+                state.items = Array.isArray(body.items) ? body.items : [];
+                state.total = Number(body.total) || 0;
+
+                renderGrid(state.items);
+                renderMeta(state.total);
+            } catch (err) {
+                state.items = [];
+                state.total = 0;
+                renderGrid([]);
+                renderMeta(0);
+                setStatus('Network error. Is the backend running?', true);
+                console.error(err);
+            } finally {
+                state.loading = false;
+                renderPagination(state.total);
+            }
+        }
+
+        el.categorySelect.addEventListener('change', () => {
+            state.category = el.categorySelect.value;
+            state.page = 0;
+            loadRepos();
+        });
+
+        el.pageSizeSelect.addEventListener('change', () => {
+            state.size = Number(el.pageSizeSelect.value) || 20;
+            state.page = 0;
+            loadRepos();
+        });
+
+        el.refreshBtn.addEventListener('click', () => {
+            loadCategories();
+            loadRepos();
+        });
+
+        el.prevBtn.addEventListener('click', () => {
+            if (state.loading) return;
+            if (state.page > 0) {
+                state.page -= 1;
+                loadRepos();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        el.nextBtn.addEventListener('click', () => {
+            if (state.loading) return;
+            const totalPages = Math.max(1, Math.ceil(state.total / state.size));
+            if (state.page + 1 < totalPages) {
+                state.page += 1;
+                loadRepos();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        loadCategories();
+        loadRepos();
+    })();
+</script>
+</body>
+</html>

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/api/repos")
+@RequestMapping("/api/reposs")
 @RequiredArgsConstructor
 public class FetchFromMongo {
 
