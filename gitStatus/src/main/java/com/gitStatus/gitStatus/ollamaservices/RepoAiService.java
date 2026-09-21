@@ -64,13 +64,21 @@ public class RepoAiService {
 
         // Limit huge READMEs
 
-        if (readme.length() > 10000) {
+        if (readme.length() > 1000) {
 
             readme = readme.substring(
                     0,
-                    10000
+                    1000
+
+
             );
+            System.out.println(
+                    "README length = " + readme.length()
+            );
+
         }
+
+
 
         String prompt =
 

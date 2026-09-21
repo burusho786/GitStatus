@@ -15,23 +15,19 @@
            80% eggshell/cream · 15% taupe · 5% jelly-bean red
            ───────────────────────────────────────────────── */
         :root {
-            /* Base neutrals — large surfaces */
-            --bg:            #FAF6EC;   /* eggshell white */
-            --bg-elevated:   #F4EBD6;   /* dark vanilla */
-            --bg-card:       #FFFFFF;   /* clean card surface */
+            --bg:            #FAF6EC;
+            --bg-elevated:   #F4EBD6;
+            --bg-card:       #FFFFFF;
             --bg-hover:      #F8F1DE;
 
-            /* Borders */
             --border:        #E8DCC0;
             --border-strong: #D5C5A0;
 
-            /* Text */
-            --text:          #3A3229;   /* deep warm brown */
-            --text-muted:    #8B7E6E;   /* taupe gray */
+            --text:          #3A3229;
+            --text-muted:    #8B7E6E;
             --text-dim:      #A89B87;
 
-            /* Accent — reserved for focus points only */
-            --accent:        #E63946;   /* jelly bean red */
+            --accent:        #E63946;
             --accent-hover:  #C42E3A;
             --accent-tint:   #FBE8E8;
 
@@ -63,72 +59,40 @@
         .app-header {
             background: var(--bg-card);
             border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 10;
+            position: sticky; top: 0; z-index: 10;
         }
-
         .header-inner {
-            display: flex;
-            align-items: baseline;
-            justify-content: space-between;
-            padding-top: 22px;
-            padding-bottom: 22px;
-            gap: 16px;
-            flex-wrap: wrap;
+            display: flex; align-items: baseline; justify-content: space-between;
+            padding-top: 22px; padding-bottom: 22px;
+            gap: 16px; flex-wrap: wrap;
         }
-
         .brand {
-            font-size: 24px;
-            font-weight: 700;
-            margin: 0;
-            letter-spacing: -0.02em;
-            color: var(--text);
+            font-size: 24px; font-weight: 700; margin: 0;
+            letter-spacing: -0.02em; color: var(--text);
         }
         .brand-mark { color: var(--accent); }
-
         .tagline {
-            margin: 0;
-            color: var(--text-muted);
-            font-size: 14px;
-            font-weight: 400;
+            margin: 0; color: var(--text-muted);
+            font-size: 14px; font-weight: 400;
         }
 
         /* ─── Controls ───────────────────────────────── */
         .controls {
-            display: flex;
-            gap: var(--gap);
-            align-items: flex-end;
-            padding: 32px 0 24px;
-            flex-wrap: wrap;
+            display: flex; gap: var(--gap); align-items: flex-end;
+            padding: 32px 0 24px; flex-wrap: wrap;
         }
-
-        .control-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
+        .control-group { display: flex; flex-direction: column; gap: 8px; }
         .control-label {
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
+            font-size: 11px; font-weight: 600; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.1em;
         }
-
         .select {
-            background: var(--bg-card);
-            color: var(--text);
+            background: var(--bg-card); color: var(--text);
             border: 1px solid var(--border-strong);
             border-radius: var(--radius);
             padding: 10px 36px 10px 14px;
-            font-size: 14px;
-            font-family: inherit;
-            font-weight: 500;
-            min-width: 180px;
-            cursor: pointer;
-            appearance: none;
+            font-size: 14px; font-family: inherit; font-weight: 500;
+            min-width: 180px; cursor: pointer; appearance: none;
             background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='%238B7E6E' d='M6 8L0 0h12z'/></svg>");
             background-repeat: no-repeat;
             background-position: calc(100% - 14px) 50%;
@@ -136,66 +100,44 @@
         }
         .select:hover { border-color: var(--text-muted); }
         .select:focus {
-            outline: none;
-            border-color: var(--accent);
+            outline: none; border-color: var(--accent);
             box-shadow: 0 0 0 3px var(--accent-tint);
         }
 
         .btn {
             border: 1px solid var(--border-strong);
             border-radius: var(--radius);
-            padding: 10px 22px;
-            font-size: 14px;
-            font-weight: 600;
-            font-family: inherit;
-            cursor: pointer;
-            background: var(--bg-card);
-            color: var(--text);
+            padding: 10px 22px; font-size: 14px; font-weight: 600;
+            font-family: inherit; cursor: pointer;
+            background: var(--bg-card); color: var(--text);
             transition: all 0.15s ease;
         }
-        .btn:hover:not(:disabled) {
-            background: var(--bg-hover);
-            border-color: var(--text-muted);
-        }
-        .btn:active:not(:disabled) {
-            transform: translateY(1px);
-        }
+        .btn:hover:not(:disabled) { background: var(--bg-hover); border-color: var(--text-muted); }
+        .btn:active:not(:disabled) { transform: translateY(1px); }
         .btn:focus-visible {
-            outline: none;
-            border-color: var(--accent);
+            outline: none; border-color: var(--accent);
             box-shadow: 0 0 0 3px var(--accent-tint);
         }
-        .btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-        /* Primary action — the ONLY red button on the page */
+        /* Solid primary — the only solid red button */
         #refreshBtn {
-            background: var(--accent);
-            color: #ffffff;
+            background: var(--accent); color: #ffffff;
             border-color: var(--accent);
         }
         #refreshBtn:hover:not(:disabled) {
-            background: var(--accent-hover);
-            border-color: var(--accent-hover);
+            background: var(--accent-hover); border-color: var(--accent-hover);
         }
 
         /* ─── Meta + Status ──────────────────────────── */
         .meta {
-            color: var(--text-muted);
-            font-size: 13px;
-            font-weight: 500;
-            padding: 4px 0 20px;
+            color: var(--text-muted); font-size: 13px;
+            font-weight: 500; padding: 4px 0 20px;
         }
-
         .status {
-            padding: 32px;
-            text-align: center;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            background: var(--bg-card);
-            color: var(--text-muted);
+            padding: 32px; text-align: center;
+            border: 1px solid var(--border); border-radius: var(--radius);
+            background: var(--bg-card); color: var(--text-muted);
             font-size: 14px;
         }
         .status.error {
@@ -208,20 +150,15 @@
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: var(--gap);
-            padding-bottom: 40px;
+            gap: var(--gap); padding-bottom: 40px;
         }
 
         /* ─── Card ───────────────────────────────────── */
         .card {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
+            display: flex; flex-direction: column; gap: 14px;
             background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 20px;
-            position: relative;
+            border: 1px solid var(--border); border-radius: var(--radius);
+            padding: 20px; position: relative;
             transition: all 0.2s ease;
             box-shadow: 0 1px 2px rgba(58, 50, 41, 0.04);
         }
@@ -231,160 +168,215 @@
             box-shadow: 0 8px 20px rgba(58, 50, 41, 0.08);
         }
 
-        /* Score seal — jelly-bean red highlight */
         .score-badge {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            z-index: 2;
-            background: var(--accent);
-            color: #ffffff;
-            padding: 4px 12px;
-            border-radius: 999px;
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 0.02em;
+            position: absolute; top: 16px; right: 16px; z-index: 2;
+            background: var(--accent); color: #ffffff;
+            padding: 4px 12px; border-radius: 999px;
+            font-size: 12px; font-weight: 700; letter-spacing: 0.02em;
             box-shadow: 0 2px 6px rgba(230, 57, 70, 0.28);
         }
 
-        .card-head {
-            display: flex;
-            gap: 14px;
-            align-items: flex-start;
-        }
-
+        .card-head { display: flex; gap: 14px; align-items: flex-start; }
         .avatar {
-            width: 44px;
-            height: 44px;
-            border-radius: 8px;
-            flex-shrink: 0;
-            background: var(--bg-elevated);
+            width: 44px; height: 44px; border-radius: 8px;
+            flex-shrink: 0; background: var(--bg-elevated);
             border: 1px solid var(--border);
         }
-
-        .card-title-block {
-            min-width: 0;
-            flex: 1;
-            padding-right: 72px;
-        }
-
+        .card-title-block { min-width: 0; flex: 1; padding-right: 72px; }
         .card-title {
-            margin: 0;
-            font-size: 16px;
-            font-weight: 600;
-            letter-spacing: -0.01em;
-            line-height: 1.3;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            margin: 0; font-size: 16px; font-weight: 600;
+            letter-spacing: -0.01em; line-height: 1.3;
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
         }
-        .card-title a {
-            color: var(--text);
-            text-decoration: none;
-            transition: color 0.15s ease;
-        }
+        .card-title a { color: var(--text); text-decoration: none; transition: color 0.15s ease; }
         .card-title a:hover { color: var(--accent); }
-
         .card-owner {
-            color: var(--text-muted);
-            font-size: 13px;
-            margin: 4px 0 0;
-            font-weight: 400;
+            color: var(--text-muted); font-size: 13px;
+            margin: 4px 0 0; font-weight: 400;
         }
 
         .card-desc {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin: 0;
+            color: var(--text-muted); font-size: 14px; margin: 0;
             line-height: 1.55;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+            display: -webkit-box; -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical; overflow: hidden;
             min-height: 4.1em;
         }
 
-        /* Badges — soft cream chips */
         .badge {
-            display: inline-block;
-            padding: 4px 11px;
-            border-radius: 999px;
-            font-size: 11px;
-            font-weight: 600;
-            background: var(--bg-elevated);
-            color: var(--text-muted);
-            border: 1px solid var(--border);
-            letter-spacing: 0.02em;
+            display: inline-block; padding: 4px 11px; border-radius: 999px;
+            font-size: 11px; font-weight: 600;
+            background: var(--bg-elevated); color: var(--text-muted);
+            border: 1px solid var(--border); letter-spacing: 0.02em;
         }
-        .badge.category {
-            color: var(--text);
-            border-color: var(--border-strong);
-        }
+        .badge.category { color: var(--text); border-color: var(--border-strong); }
 
-        /* Stats */
         .card-stats {
-            display: flex;
-            gap: 18px;
-            flex-wrap: wrap;
-            font-size: 12px;
-            color: var(--text-muted);
-            padding-top: 2px;
+            display: flex; gap: 18px; flex-wrap: wrap;
+            font-size: 12px; color: var(--text-muted); padding-top: 2px;
         }
-        .stat {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .stat > span:first-child {
-            color: var(--text-dim);
-            font-size: 13px;
-        }
+        .stat { display: flex; align-items: center; gap: 5px; }
+        .stat > span:first-child { color: var(--text-dim); font-size: 13px; }
         .stat-value {
-            color: var(--text);
-            font-weight: 600;
+            color: var(--text); font-weight: 600;
             font-variant-numeric: tabular-nums;
         }
 
-        /* Card footer */
         .card-foot {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            align-items: center;
+            display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
             border-top: 1px solid var(--border);
-            padding-top: 14px;
-            margin-top: auto;
+            padding-top: 14px; margin-top: auto;
+        }
+
+        /* ─── AI ghost button (uses red as outline — 5% accent) ── */
+        .btn-ai {
+            margin-left: auto;
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            border-radius: var(--radius);
+            transition: all 0.15s ease;
+        }
+        .btn-ai:hover:not(:disabled) {
+            background: var(--accent);
+            color: #ffffff;
+            box-shadow: 0 2px 6px rgba(230, 57, 70, 0.28);
+        }
+        .btn-ai:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 3px var(--accent-tint);
         }
 
         /* ─── Pagination ─────────────────────────────── */
         .pagination {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-            padding: 24px 0 56px;
+            display: flex; align-items: center; justify-content: center;
+            gap: 16px; padding: 24px 0 56px;
             border-top: 1px solid var(--border);
         }
         .page-info {
-            color: var(--text-muted);
-            font-size: 14px;
-            font-weight: 500;
-            min-width: 140px;
-            text-align: center;
+            color: var(--text-muted); font-size: 14px; font-weight: 500;
+            min-width: 140px; text-align: center;
             font-variant-numeric: tabular-nums;
         }
 
         /* ─── Footer ─────────────────────────────────── */
         .app-footer {
             border-top: 1px solid var(--border);
-            color: var(--text-dim);
-            font-size: 13px;
-            padding: 28px 0;
-            margin-top: 24px;
+            color: var(--text-dim); font-size: 13px;
+            padding: 28px 0; margin-top: 24px;
         }
-        .app-footer p {
+        .app-footer p { margin: 0; text-align: center; }
+
+        /* ─── Modal ──────────────────────────────────── */
+        .modal {
+            position: fixed; inset: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: center;
+            padding: 24px;
+        }
+        .modal[hidden] { display: none; }
+
+        .modal-backdrop {
+            position: absolute; inset: 0;
+            background: rgba(58, 50, 41, 0.45);
+            backdrop-filter: blur(2px);
+            animation: fadeIn 0.15s ease;
+        }
+
+        .modal-panel {
+            position: relative;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 720px;
+            max-height: calc(100vh - 48px);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 60px rgba(58, 50, 41, 0.20);
+            animation: slideUp 0.2s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-head {
+            display: flex; align-items: flex-start; justify-content: space-between;
+            gap: 16px; padding: 20px 24px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        .modal-eyebrow {
+            margin: 0 0 4px;
+            font-size: 11px; font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase; letter-spacing: 0.1em;
+        }
+        .modal-title {
             margin: 0;
+            font-size: 18px; font-weight: 700;
+            letter-spacing: -0.01em; color: var(--text);
+            word-break: break-word;
+        }
+        .btn-close {
+            flex-shrink: 0;
+            width: 34px; height: 34px;
+            padding: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; line-height: 1;
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .btn-close:hover {
+            background: var(--bg-hover);
+            color: var(--text);
+            border-color: var(--border-strong);
+        }
+
+        .modal-body {
+            padding: 22px 24px;
+            overflow-y: auto;
+            color: var(--text);
+            font-size: 15px;
+            line-height: 1.65;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .modal-body.loading {
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 16px; min-height: 200px;
+            color: var(--text-muted);
             text-align: center;
+        }
+        .modal-body.error {
+            color: var(--accent-hover);
+        }
+
+        .spinner {
+            width: 32px; height: 32px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .modal-foot {
+            padding: 12px 24px 18px;
+            border-top: 1px solid var(--border);
+            color: var(--text-dim);
+            font-size: 12px;
+            text-align: right;
         }
 
         /* ─── Responsive ─────────────────────────────── */
@@ -395,6 +387,14 @@
             .select { width: 100%; }
             .header-inner { padding-top: 18px; padding-bottom: 18px; }
             .brand { font-size: 22px; }
+            .modal { padding: 0; }
+            .modal-panel {
+                max-width: 100%;
+                max-height: 100vh;
+                border-radius: 0;
+                height: 100vh;
+            }
+            .btn-ai { margin-left: 0; width: 100%; }
         }
     </style>
 </head>
@@ -444,20 +444,38 @@
     </div>
 </footer>
 
+<!-- AI Analysis Modal -->
+<div id="aiModal" class="modal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="aiModalTitle">
+        <div class="modal-head">
+            <div>
+                <p class="modal-eyebrow">AI Analysis · Local Model</p>
+                <h3 id="aiModalTitle" class="modal-title">Repository</h3>
+            </div>
+            <button id="aiModalClose" class="btn-close" type="button" aria-label="Close">×</button>
+        </div>
+        <div id="aiModalBody" class="modal-body"></div>
+        <div class="modal-foot">
+            <span id="aiModalMeta"></span>
+        </div>
+    </div>
+</div>
+
 <script>
     'use strict';
 
     (() => {
-        const API_BASE = '/api/repos';
+        const API_BASE  = '/api/repos';
+        const AI_BASE   = '/api/ai';
 
         const state = {
-            page: 0,
-            size: 20,
-            category: '',
-            total: 0,
-            items: [],
-            loading: false,
+            page: 0, size: 20, category: '',
+            total: 0, items: [], loading: false,
         };
+
+        // Client-side cache: githubId -> { text, generatedAt }
+        const aiCache = new Map();
 
         const el = {
             categorySelect: document.getElementById('categorySelect'),
@@ -470,8 +488,15 @@
             prevBtn:       document.getElementById('prevBtn'),
             nextBtn:       document.getElementById('nextBtn'),
             pageInfo:      document.getElementById('pageInfo'),
+
+            aiModal:       document.getElementById('aiModal'),
+            aiModalTitle:  document.getElementById('aiModalTitle'),
+            aiModalBody:   document.getElementById('aiModalBody'),
+            aiModalMeta:   document.getElementById('aiModalMeta'),
+            aiModalClose:  document.getElementById('aiModalClose'),
         };
 
+        // ── Helpers ─────────────────────────────────
         function formatCount(n) {
             if (n == null) return '—';
             if (n < 1000) return String(n);
@@ -485,6 +510,16 @@
             if (Number.isNaN(d.getTime())) return '—';
             return d.toLocaleDateString(undefined, {
                 year: 'numeric', month: 'short', day: 'numeric',
+            });
+        }
+
+        function formatDateTime(iso) {
+            if (!iso) return '';
+            const d = new Date(iso);
+            if (Number.isNaN(d.getTime())) return '';
+            return d.toLocaleString(undefined, {
+                year: 'numeric', month: 'short', day: 'numeric',
+                hour: '2-digit', minute: '2-digit',
             });
         }
 
@@ -519,6 +554,7 @@
             return wrap;
         }
 
+        // ── Card rendering ──────────────────────────
         function renderCard(repo) {
             const card = elem('article', { className: 'card' });
 
@@ -551,7 +587,6 @@
             head.appendChild(avatar);
 
             const titleBlock = elem('div', { className: 'card-title-block' });
-
             const title = elem('h2', { className: 'card-title' });
             const link = elem('a', {
                 text: repo.name || repo.fullName || 'unknown',
@@ -559,12 +594,10 @@
             });
             title.appendChild(link);
             titleBlock.appendChild(title);
-
             titleBlock.appendChild(elem('p', {
                 className: 'card-owner',
                 text: repo.owner ? `@${repo.owner}` : '',
             }));
-
             head.appendChild(titleBlock);
             card.appendChild(head);
 
@@ -594,8 +627,22 @@
                     attrs: { title: 'Weighted score from RankingService' },
                 }));
             }
-            card.appendChild(foot);
 
+            // AI Explain button
+            const aiBtn = elem('button', {
+                className: 'btn btn-ai',
+                text: '✦ Explain',
+                attrs: { type: 'button', title: 'Generate an AI summary of this repository' },
+            });
+            aiBtn.addEventListener('click', () => {
+                openAiAnalysis(
+                    repo.githubId,
+                    repo.fullName || repo.name || 'Repository'
+                );
+            });
+            foot.appendChild(aiBtn);
+
+            card.appendChild(foot);
             return card;
         }
 
@@ -620,16 +667,121 @@
 
         function renderPagination(total) {
             const totalPages = Math.max(1, Math.ceil(total / state.size));
-            if (totalPages <= 1) {
-                el.pagination.hidden = true;
-                return;
-            }
+            if (totalPages <= 1) { el.pagination.hidden = true; return; }
             el.pagination.hidden = false;
             el.pageInfo.textContent = `Page ${state.page + 1} of ${totalPages}`;
             el.prevBtn.disabled = state.page === 0;
             el.nextBtn.disabled = state.page + 1 >= totalPages;
         }
 
+        // ── AI Modal ────────────────────────────────
+        function setModalState(state_) {
+            el.aiModalBody.classList.remove('loading', 'error');
+            el.aiModalBody.replaceChildren();
+            if (state_ === 'loading' || state_ === 'error') {
+                el.aiModalBody.classList.add(state_);
+            }
+        }
+
+        function renderLoading() {
+            setModalState('loading');
+            el.aiModalBody.appendChild(elem('div', { className: 'spinner' }));
+            el.aiModalBody.appendChild(elem('p', {
+                text: 'Generating analysis with the local model… this may take up to a minute.',
+            }));
+            el.aiModalMeta.textContent = '';
+        }
+
+        function renderError(message) {
+            setModalState('error');
+            el.aiModalBody.appendChild(elem('p', { text: message }));
+            el.aiModalMeta.textContent = '';
+        }
+
+        function renderAnalysis(text, generatedAt, fromCache) {
+            setModalState('default');
+            // SAFETY: textContent only — never innerHTML with AI output (ruleset §42/§48)
+            el.aiModalBody.textContent = text || '(empty response)';
+            const when = generatedAt ? formatDateTime(generatedAt) : '';
+            el.aiModalMeta.textContent =
+                (fromCache ? 'Loaded from cache · ' : 'Generated · ') +
+                (when ? when : 'just now');
+        }
+
+        function openModal(title) {
+            el.aiModalTitle.textContent = title;
+            el.aiModal.hidden = false;
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            el.aiModal.hidden = true;
+            document.body.style.overflow = '';
+            setModalState('default');
+        }
+
+        async function openAiAnalysis(githubId, fullName) {
+            openModal(fullName);
+
+            // Client cache hit?
+            if (aiCache.has(githubId)) {
+                const hit = aiCache.get(githubId);
+                renderAnalysis(hit.text, hit.generatedAt, true);
+                return;
+            }
+
+            renderLoading();
+
+            try {
+                const res = await fetch(`${AI_BASE}/explain/${githubId}`, {
+                    headers: { Accept: 'application/json' },
+                });
+
+                if (!res.ok) {
+                    // Distinguish common cases for a friendly message.
+                    if (res.status === 500) {
+                        renderError(
+                            'The AI service could not produce an analysis for this repository. ' +
+                            'This usually means the README is not cached yet. ' +
+                            'Try refreshing the page or running the README cache first.'
+                        );
+                    } else if (res.status === 404) {
+                        renderError('This repository was not found.');
+                    } else {
+                        renderError(`AI request failed (${res.status}).`);
+                    }
+                    return;
+                }
+
+                const data = await res.json();
+
+                // Backend DTO (assumed): { githubId, repositoryExplainer, generatedAt }
+                const text = typeof data.repositoryExplainer === 'string'
+                    ? data.repositoryExplainer
+                    : '';
+
+                if (!text) {
+                    renderError('The AI returned an empty response.');
+                    return;
+                }
+
+                aiCache.set(githubId, { text, generatedAt: data.generatedAt || null });
+                renderAnalysis(text, data.generatedAt || null, false);
+            } catch (err) {
+                console.error(err);
+                renderError('Network error. Is the backend running?');
+            }
+        }
+
+        // Modal close handlers
+        el.aiModalClose.addEventListener('click', closeModal);
+        el.aiModal.querySelector('.modal-backdrop')
+            .addEventListener('click', closeModal);
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !el.aiModal.hidden) closeModal();
+        });
+
+        // ── Data loads ──────────────────────────────
         async function loadCategories() {
             try {
                 const res = await fetch(`${API_BASE}/categories`, {
@@ -677,10 +829,8 @@
                         const problem = await res.json();
                         if (problem && problem.detail) detail = problem.detail;
                     } catch { /* not JSON */ }
-                    state.items = [];
-                    state.total = 0;
-                    renderGrid([]);
-                    renderMeta(0);
+                    state.items = []; state.total = 0;
+                    renderGrid([]); renderMeta(0);
                     setStatus(detail, true);
                     return;
                 }
@@ -692,10 +842,8 @@
                 renderGrid(state.items);
                 renderMeta(state.total);
             } catch (err) {
-                state.items = [];
-                state.total = 0;
-                renderGrid([]);
-                renderMeta(0);
+                state.items = []; state.total = 0;
+                renderGrid([]); renderMeta(0);
                 setStatus('Network error. Is the backend running?', true);
                 console.error(err);
             } finally {
@@ -704,6 +852,7 @@
             }
         }
 
+        // ── Event wiring ────────────────────────────
         el.categorySelect.addEventListener('change', () => {
             state.category = el.categorySelect.value;
             state.page = 0;
@@ -740,6 +889,7 @@
             }
         });
 
+        // ── Init ────────────────────────────────────
         loadCategories();
         loadRepos();
     })();
