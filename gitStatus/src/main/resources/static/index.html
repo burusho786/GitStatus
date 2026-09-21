@@ -3,7 +3,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#FAF6EC" />
+    <meta name="color-scheme" content="light" />
     <title>GitStatus — Trending Repositories</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -33,9 +36,20 @@
 
             --radius:        8px;
             --gap:           20px;
+            --pad-x:         28px;
+
+            --safe-top:    env(safe-area-inset-top, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            --safe-left:   env(safe-area-inset-left, 0px);
+            --safe-right:  env(safe-area-inset-right, 0px);
         }
 
         * { box-sizing: border-box; }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
 
         html, body {
             margin: 0; padding: 0;
@@ -47,12 +61,20 @@
             line-height: 1.55;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
         }
+
+        /* Touch feedback — replaces blue flash on Android */
+        button, a, select {
+            -webkit-tap-highlight-color: rgba(230, 57, 70, 0.10);
+        }
+        .btn, .btn-ai, .btn-close { touch-action: manipulation; }
 
         .container {
             max-width: 1240px;
             margin: 0 auto;
-            padding: 0 28px;
+            padding-left: calc(var(--pad-x) + var(--safe-left));
+            padding-right: calc(var(--pad-x) + var(--safe-right));
         }
 
         /* ─── Header ─────────────────────────────────── */
@@ -60,6 +82,7 @@
             background: var(--bg-card);
             border-bottom: 1px solid var(--border);
             position: sticky; top: 0; z-index: 10;
+            padding-top: var(--safe-top);
         }
         .header-inner {
             display: flex; align-items: baseline; justify-content: space-between;
@@ -91,7 +114,7 @@
             border: 1px solid var(--border-strong);
             border-radius: var(--radius);
             padding: 10px 36px 10px 14px;
-            font-size: 14px; font-family: inherit; font-weight: 500;
+            font-size: 15px; font-family: inherit; font-weight: 500;
             min-width: 180px; cursor: pointer; appearance: none;
             background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='%238B7E6E' d='M6 8L0 0h12z'/></svg>");
             background-repeat: no-repeat;
@@ -120,7 +143,6 @@
         }
         .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-        /* Solid primary — the only solid red button */
         #refreshBtn {
             background: var(--accent); color: #ffffff;
             border-color: var(--accent);
@@ -228,7 +250,6 @@
             padding-top: 14px; margin-top: auto;
         }
 
-        /* ─── AI ghost button (uses red as outline — 5% accent) ── */
         .btn-ai {
             margin-left: auto;
             padding: 6px 14px;
@@ -266,7 +287,9 @@
         .app-footer {
             border-top: 1px solid var(--border);
             color: var(--text-dim); font-size: 13px;
-            padding: 28px 0; margin-top: 24px;
+            padding: 28px 0;
+            padding-bottom: calc(28px + var(--safe-bottom));
+            margin-top: 24px;
         }
         .app-footer p { margin: 0; text-align: center; }
 
@@ -293,6 +316,7 @@
             width: 100%;
             max-width: 720px;
             max-height: calc(100vh - 48px);
+            max-height: calc(100dvh - 48px);
             display: flex;
             flex-direction: column;
             box-shadow: 0 20px 60px rgba(58, 50, 41, 0.20);
@@ -344,6 +368,8 @@
         .modal-body {
             padding: 22px 24px;
             overflow-y: auto;
+            overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
             color: var(--text);
             font-size: 15px;
             line-height: 1.65;
@@ -358,9 +384,7 @@
             color: var(--text-muted);
             text-align: center;
         }
-        .modal-body.error {
-            color: var(--accent-hover);
-        }
+        .modal-body.error { color: var(--accent-hover); }
 
         .spinner {
             width: 32px; height: 32px;
@@ -379,22 +403,245 @@
             text-align: right;
         }
 
-        /* ─── Responsive ─────────────────────────────── */
-        @media (max-width: 640px) {
-            .container { padding: 0 18px; }
-            .grid { grid-template-columns: 1fr; }
-            .controls { flex-direction: column; align-items: stretch; }
-            .select { width: 100%; }
+        /* ═════════════════════════════════════════════════
+           RESPONSIVE — multi-tier
+           ═════════════════════════════════════════════════ */
+
+        /* Small laptops / large tablets */
+        @media (max-width: 1024px) {
+            :root { --pad-x: 24px; }
+            .grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+        }
+
+        /* Tablets portrait */
+        @media (max-width: 768px) {
+            :root { --gap: 16px; --pad-x: 20px; }
             .header-inner { padding-top: 18px; padding-bottom: 18px; }
             .brand { font-size: 22px; }
+            .tagline { font-size: 13px; }
+            .controls { padding: 24px 0 16px; }
+            .grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+            .card { padding: 18px; }
+            .modal { padding: 16px; }
+        }
+
+        /* Phones (large) */
+        @media (max-width: 640px) {
+            body { font-size: 14px; }
+            :root { --gap: 14px; --pad-x: 16px; }
+
+            /* Header — stack, tighter */
+            .header-inner {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+                padding-top: 14px;
+                padding-bottom: 14px;
+            }
+            .brand { font-size: 20px; }
+            .tagline { font-size: 12px; }
+
+            /* Controls — 2-col selects + full-width Refresh */
+            .controls {
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-items: stretch;
+                gap: 10px;
+                padding: 18px 0 12px;
+            }
+            .control-group {
+                flex: 1 1 calc(50% - 5px);
+                min-width: 0;
+                gap: 6px;
+            }
+            .control-label { font-size: 10px; letter-spacing: 0.08em; }
+            .select {
+                width: 100%;
+                min-width: 0;
+                font-size: 16px;            /* prevent iOS auto-zoom */
+                padding: 12px 34px 12px 12px;
+                min-height: 46px;           /* touch target */
+            }
+            #refreshBtn {
+                flex: 1 1 100%;
+                min-height: 46px;
+                font-size: 14px;
+            }
+
+            /* Meta */
+            .meta { font-size: 12px; padding: 2px 0 12px; }
+
+            /* Grid — single column */
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                padding-bottom: 24px;
+            }
+
+            /* Card — tighter on phone */
+            .card { padding: 16px; gap: 12px; border-radius: 10px; }
+            .card:active { transform: scale(0.995); }
+
+            .score-badge {
+                top: 12px; right: 12px;
+                padding: 3px 10px;
+                font-size: 11px;
+            }
+
+            .card-head { gap: 12px; }
+            .avatar { width: 38px; height: 38px; border-radius: 6px; }
+            .card-title-block { padding-right: 56px; }
+            .card-title { font-size: 15px; }
+            .card-owner { font-size: 12px; }
+            .card-desc {
+                font-size: 13px;
+                -webkit-line-clamp: 4;
+                min-height: 3.6em;
+            }
+
+            .badge { font-size: 10px; padding: 3px 9px; }
+
+            .card-stats { gap: 12px; font-size: 11px; }
+            .stat > span:first-child { font-size: 12px; }
+
+            .card-foot { padding-top: 12px; gap: 6px; }
+
+            .btn-ai {
+                margin-left: 0;
+                flex: 1 1 100%;
+                padding: 10px 14px;
+                font-size: 13px;
+                min-height: 42px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            /* Pagination — page info on top, buttons below */
+            .pagination {
+                flex-wrap: wrap;
+                gap: 10px;
+                padding: 18px 0 28px;
+                padding-bottom: calc(28px + var(--safe-bottom));
+            }
+            .page-info {
+                order: -1;
+                min-width: 100%;
+                font-size: 13px;
+                padding-bottom: 4px;
+            }
+            .pagination .btn {
+                flex: 1 1 auto;
+                min-height: 46px;
+                padding: 10px 14px;
+                font-size: 13px;
+            }
+
+            /* Footer */
+            .app-footer { font-size: 12px; padding: 20px 0; }
+
+            /* Modal — fullscreen, safe-area aware */
             .modal { padding: 0; }
             .modal-panel {
                 max-width: 100%;
-                max-height: 100vh;
-                border-radius: 0;
+                width: 100%;
                 height: 100vh;
+                height: 100dvh;
+                max-height: 100dvh;
+                border-radius: 0;
+                border: none;
             }
-            .btn-ai { margin-left: 0; width: 100%; }
+            .modal-head {
+                padding: 16px 18px 12px;
+                padding-top: calc(16px + var(--safe-top));
+                padding-left: calc(18px + var(--safe-left));
+                padding-right: calc(18px + var(--safe-right));
+            }
+            .modal-eyebrow { font-size: 10px; }
+            .modal-title { font-size: 16px; }
+            .btn-close {
+                width: 40px; height: 40px;
+                font-size: 24px;
+            }
+            .modal-body {
+                padding: 18px;
+                padding-left: calc(18px + var(--safe-left));
+                padding-right: calc(18px + var(--safe-right));
+                font-size: 15px;
+                line-height: 1.6;
+            }
+            .modal-foot {
+                padding: 12px 18px;
+                padding-bottom: calc(12px + var(--safe-bottom));
+                font-size: 11px;
+            }
+            .spinner { width: 36px; height: 36px; }
+        }
+
+        /* Small phones */
+        @media (max-width: 380px) {
+            :root { --pad-x: 12px; --gap: 10px; }
+            .brand { font-size: 18px; }
+            .tagline { font-size: 11px; }
+            .control-group { flex: 1 1 100%; }   /* stack selects */
+            .card { padding: 14px; gap: 10px; }
+            .score-badge { padding: 2px 8px; font-size: 10px; }
+            .card-title { font-size: 14px; }
+            .card-title-block { padding-right: 48px; }
+            .card-desc { font-size: 12.5px; }
+            .badge { font-size: 9.5px; padding: 2px 8px; }
+            .card-stats { gap: 10px; font-size: 10.5px; }
+            .btn-ai { font-size: 12px; padding: 9px 12px; min-height: 40px; }
+            .pagination .btn { font-size: 12px; padding: 10px 10px; }
+            .page-info { font-size: 12px; }
+        }
+
+        /* Touch devices — remove hover-only effects that feel wrong on tap */
+        @media (hover: none) and (pointer: coarse) {
+            .card:hover {
+                transform: none;
+                border-color: var(--border);
+                box-shadow: 0 1px 2px rgba(58, 50, 41, 0.04);
+            }
+            .btn:hover:not(:disabled) {
+                background: var(--bg-card);
+                border-color: var(--border-strong);
+            }
+            #refreshBtn:hover:not(:disabled) { background: var(--accent); }
+            .btn-ai:hover:not(:disabled) {
+                background: transparent;
+                color: var(--accent);
+                box-shadow: none;
+            }
+            .btn-close:hover {
+                background: transparent;
+                color: var(--text-muted);
+                border-color: var(--border);
+            }
+            /* Provide tap feedback instead */
+            .card:active { border-color: var(--border-strong); }
+            .btn:active:not(:disabled) { background: var(--bg-hover); }
+            #refreshBtn:active:not(:disabled) { background: var(--accent-hover); }
+            .btn-ai:active:not(:disabled) { background: var(--accent-tint); }
+        }
+
+        /* Landscape phone — reduce vertical chrome */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .header-inner { padding-top: 10px; padding-bottom: 10px; }
+            .brand { font-size: 18px; }
+            .tagline { display: none; }
+            .controls { padding: 12px 0 8px; }
+            .grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+        }
+
+        /* Accessibility — respect reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
         }
     </style>
 </head>
@@ -474,7 +721,6 @@
             total: 0, items: [], loading: false,
         };
 
-        // Client-side cache: githubId -> { text, generatedAt }
         const aiCache = new Map();
 
         const el = {
@@ -496,7 +742,6 @@
             aiModalClose:  document.getElementById('aiModalClose'),
         };
 
-        // ── Helpers ─────────────────────────────────
         function formatCount(n) {
             if (n == null) return '—';
             if (n < 1000) return String(n);
@@ -554,7 +799,6 @@
             return wrap;
         }
 
-        // ── Card rendering ──────────────────────────
         function renderCard(repo) {
             const card = elem('article', { className: 'card' });
 
@@ -628,7 +872,6 @@
                 }));
             }
 
-            // AI Explain button
             const aiBtn = elem('button', {
                 className: 'btn btn-ai',
                 text: '✦ Explain',
@@ -674,7 +917,6 @@
             el.nextBtn.disabled = state.page + 1 >= totalPages;
         }
 
-        // ── AI Modal ────────────────────────────────
         function setModalState(state_) {
             el.aiModalBody.classList.remove('loading', 'error');
             el.aiModalBody.replaceChildren();
@@ -700,7 +942,6 @@
 
         function renderAnalysis(text, generatedAt, fromCache) {
             setModalState('default');
-            // SAFETY: textContent only — never innerHTML with AI output (ruleset §42/§48)
             el.aiModalBody.textContent = text || '(empty response)';
             const when = generatedAt ? formatDateTime(generatedAt) : '';
             el.aiModalMeta.textContent =
@@ -723,7 +964,6 @@
         async function openAiAnalysis(githubId, fullName) {
             openModal(fullName);
 
-            // Client cache hit?
             if (aiCache.has(githubId)) {
                 const hit = aiCache.get(githubId);
                 renderAnalysis(hit.text, hit.generatedAt, true);
@@ -738,7 +978,6 @@
                 });
 
                 if (!res.ok) {
-                    // Distinguish common cases for a friendly message.
                     if (res.status === 500) {
                         renderError(
                             'The AI service could not produce an analysis for this repository. ' +
@@ -755,7 +994,6 @@
 
                 const data = await res.json();
 
-                // Backend DTO (assumed): { githubId, repositoryExplainer, generatedAt }
                 const text = typeof data.repositoryExplainer === 'string'
                     ? data.repositoryExplainer
                     : '';
@@ -773,7 +1011,6 @@
             }
         }
 
-        // Modal close handlers
         el.aiModalClose.addEventListener('click', closeModal);
         el.aiModal.querySelector('.modal-backdrop')
             .addEventListener('click', closeModal);
@@ -781,7 +1018,6 @@
             if (e.key === 'Escape' && !el.aiModal.hidden) closeModal();
         });
 
-        // ── Data loads ──────────────────────────────
         async function loadCategories() {
             try {
                 const res = await fetch(`${API_BASE}/categories`, {
@@ -852,7 +1088,6 @@
             }
         }
 
-        // ── Event wiring ────────────────────────────
         el.categorySelect.addEventListener('change', () => {
             state.category = el.categorySelect.value;
             state.page = 0;
@@ -889,7 +1124,6 @@
             }
         });
 
-        // ── Init ────────────────────────────────────
         loadCategories();
         loadRepos();
     })();
