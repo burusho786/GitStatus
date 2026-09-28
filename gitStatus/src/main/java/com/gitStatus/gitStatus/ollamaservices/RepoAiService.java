@@ -64,11 +64,11 @@ public class RepoAiService {
 
         // Limit huge READMEs
 
-        if (readme.length() > 1000) {
+        if (readme.length() > 400) {
 
             readme = readme.substring(
                     0,
-                    1000
+                    400
 
 
             );

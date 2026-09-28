@@ -1,11 +1,9 @@
-<!-- src/main/resources/static/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#FAF6EC" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#FBF9F5" />
     <meta name="color-scheme" content="light" />
     <title>GitStatus — Trending Repositories</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -14,29 +12,46 @@
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
     <style>
         /* ─────────────────────────────────────────────────
-           MINIMAL YET WARM
-           80% eggshell/cream · 15% taupe · 5% jelly-bean red
+           PALETTE — THE EDITORIAL / HERITAGE LOOK
+           60% parchment · 30% ink · 10% crimson
            ───────────────────────────────────────────────── */
         :root {
-            --bg:            #FAF6EC;
-            --bg-elevated:   #F4EBD6;
-            --bg-card:       #FFFFFF;
-            --bg-hover:      #F8F1DE;
+            --bg:            #FBF9F5;   /* warm parchment */
+            --bg-elevated:   #F3EFE4;   /* deeper cream for insets */
+            --bg-card:       #FFFFFF;   /* pure white cards */
+            --bg-hover:      #F5F1E6;   /* subtle hover wash */
 
-            --border:        #E8DCC0;
-            --border-strong: #D5C5A0;
+            --border:        #E4DCCA;   /* warm hairline */
+            --border-strong: #C9BFAC;   /* visible rule */
 
-            --text:          #3A3229;
-            --text-muted:    #8B7E6E;
-            --text-dim:      #A89B87;
+            --text:          #1A1A1A;   /* ink black */
+            --text-muted:    #5A544B;   /* muted ink */
+            --text-dim:      #8A8377;   /* dim ink */
 
-            --accent:        #E63946;
-            --accent-hover:  #C42E3A;
-            --accent-tint:   #FBE8E8;
+            --accent:        #8B0000;   /* heritage crimson */
+            --accent-hover:  #6E0000;   /* deeper crimson */
+            --accent-tint:   #F6ECEC;   /* faint crimson wash */
 
-            --radius:        8px;
+            /* Medal palette — muted, editorial */
+            --gold:          #B8922B;
+            --gold-bg:       #F5EAD0;
+            --gold-ink:      #5D4A14;
+            --silver:        #8F8F8F;
+            --silver-bg:     #EDEDEB;
+            --silver-ink:    #3A3A3A;
+            --bronze:        #9B6A3A;
+            --bronze-bg:     #F0E2D3;
+            --bronze-ink:    #4A3419;
+
+            --radius:        6px;
+            --radius-lg:     10px;
             --gap:           20px;
             --pad-x:         28px;
+
+            --font-serif:    'Iowan Old Style', 'Palatino Linotype', Palatino,
+                             Georgia, 'Times New Roman', serif;
+            --font-sans:     'Inter', -apple-system, BlinkMacSystemFont,
+                             'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 
             --safe-top:    env(safe-area-inset-top, 0px);
             --safe-bottom: env(safe-area-inset-bottom, 0px);
@@ -46,17 +61,13 @@
 
         * { box-sizing: border-box; }
 
-        html {
-            -webkit-text-size-adjust: 100%;
-            text-size-adjust: 100%;
-        }
+        html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
         html, body {
             margin: 0; padding: 0;
             background: var(--bg);
             color: var(--text);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont,
-                         'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: var(--font-sans);
             font-size: 15px;
             line-height: 1.55;
             -webkit-font-smoothing: antialiased;
@@ -64,10 +75,7 @@
             overflow-x: hidden;
         }
 
-        /* Touch feedback — replaces blue flash on Android */
-        button, a, select {
-            -webkit-tap-highlight-color: rgba(230, 57, 70, 0.10);
-        }
+        button, a, select { -webkit-tap-highlight-color: rgba(139, 0, 0, 0.10); }
         .btn, .btn-ai, .btn-close { touch-action: manipulation; }
 
         .container {
@@ -77,7 +85,7 @@
             padding-right: calc(var(--pad-x) + var(--safe-right));
         }
 
-        /* ─── Header ─────────────────────────────────── */
+        /* ─── HEADER ─────────────────────────────── */
         .app-header {
             background: var(--bg-card);
             border-bottom: 1px solid var(--border);
@@ -90,24 +98,252 @@
             gap: 16px; flex-wrap: wrap;
         }
         .brand {
-            font-size: 24px; font-weight: 700; margin: 0;
-            letter-spacing: -0.02em; color: var(--text);
+            font-family: var(--font-serif);
+            font-size: 27px; font-weight: 700; margin: 0;
+            letter-spacing: -0.012em; color: var(--text);
         }
         .brand-mark { color: var(--accent); }
         .tagline {
             margin: 0; color: var(--text-muted);
             font-size: 14px; font-weight: 400;
+            font-family: var(--font-serif);
+            font-style: italic;
         }
 
-        /* ─── Controls ───────────────────────────────── */
+        /* ─── SECTION HEADING (editorial) ─────────── */
+        .section {
+            padding-top: 40px;
+        }
+        .section-head {
+            display: flex; align-items: baseline; justify-content: space-between;
+            gap: 16px; flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        .section-head h2 {
+            margin: 0;
+            font-family: var(--font-serif);
+            font-size: 22px; font-weight: 700;
+            letter-spacing: -0.008em;
+            color: var(--text);
+        }
+        .section-head .section-sub {
+            font-size: 12.5px; color: var(--text-dim);
+            font-style: italic;
+            font-family: var(--font-serif);
+        }
+
+        /* ─── STAT TILES ─────────────────────────── */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+        }
+        .stat-tile {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 20px 22px;
+            position: relative;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+        .stat-tile:hover {
+            border-color: var(--border-strong);
+            box-shadow: 0 2px 10px rgba(26, 26, 26, 0.04);
+        }
+        .stat-label {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            margin: 0 0 8px;
+        }
+        .stat-number {
+            font-family: var(--font-serif);
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.022em;
+            line-height: 1.02;
+            margin: 0;
+            font-variant-numeric: tabular-nums;
+        }
+        .stat-number.accent { color: var(--accent); }
+        .stat-sub {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin: 6px 0 0;
+            font-style: italic;
+        }
+
+        /* ─── CHARTS ─────────────────────────────── */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+        .chart-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 22px 24px;
+        }
+        .chart-panel h3 {
+            margin: 0 0 4px;
+            font-family: var(--font-serif);
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: -0.005em;
+            color: var(--text);
+        }
+        .chart-panel .chart-desc {
+            margin: 0 0 18px;
+            font-size: 12.5px;
+            color: var(--text-dim);
+            font-style: italic;
+            font-family: var(--font-serif);
+        }
+        .chart-svg {
+            width: 100%; height: auto; display: block;
+            font-family: var(--font-sans);
+        }
+        .chart-bar {
+            fill: var(--accent);
+            transition: opacity 0.15s ease;
+        }
+        .chart-bar.dim { fill: var(--border-strong); }
+        .chart-bar-track {
+            fill: var(--bg-elevated);
+        }
+        .chart-label {
+            font-size: 13px;
+            fill: var(--text);
+            font-weight: 500;
+        }
+        .chart-value {
+            font-size: 12px;
+            fill: var(--text-muted);
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+        }
+        .chart-empty {
+            text-align: center;
+            padding: 30px 12px;
+            color: var(--text-dim);
+            font-size: 13px;
+            font-style: italic;
+            font-family: var(--font-serif);
+        }
+
+        /* ─── LEADERBOARD ────────────────────────── */
+        .leaderboard-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 22px 24px;
+            margin-top: 20px;
+        }
+        .leaderboard-panel h3 {
+            margin: 0 0 4px;
+            font-family: var(--font-serif);
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .leaderboard-panel .chart-desc {
+            margin: 0 0 16px;
+            font-size: 12.5px;
+            color: var(--text-dim);
+            font-style: italic;
+            font-family: var(--font-serif);
+        }
+        .leaderboard {
+            list-style: none; padding: 0; margin: 0;
+            display: flex; flex-direction: column; gap: 4px;
+        }
+        .leaderboard li {
+            display: flex; align-items: center; gap: 14px;
+            padding: 10px 12px;
+            border-radius: var(--radius);
+            transition: background 0.15s ease;
+        }
+        .leaderboard li:hover { background: var(--bg-hover); }
+        .rank {
+            width: 28px; height: 28px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%;
+            background: var(--bg-elevated);
+            color: var(--text-muted);
+            font-size: 12px; font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            border: 1px solid var(--border);
+        }
+        .leaderboard li:nth-child(1) .rank {
+            background: var(--gold-bg);
+            border-color: var(--gold);
+            color: var(--gold-ink);
+        }
+        .leaderboard li:nth-child(2) .rank {
+            background: var(--silver-bg);
+            border-color: var(--silver);
+            color: var(--silver-ink);
+        }
+        .leaderboard li:nth-child(3) .rank {
+            background: var(--bronze-bg);
+            border-color: var(--bronze);
+            color: var(--bronze-ink);
+        }
+        .leaderboard .lb-avatar {
+            width: 32px; height: 32px; border-radius: 6px;
+            flex-shrink: 0;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+        }
+        .leaderboard .lb-info { flex: 1; min-width: 0; }
+        .leaderboard .lb-name {
+            font-size: 13.5px; font-weight: 600;
+            color: var(--text);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .leaderboard .lb-name a { color: inherit; text-decoration: none; }
+        .leaderboard .lb-name a:hover { color: var(--accent); }
+        .leaderboard .lb-sub {
+            font-size: 11.5px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+        .leaderboard .lb-score {
+            font-family: var(--font-serif);
+            font-size: 21px;
+            font-weight: 700;
+            color: var(--accent);
+            font-variant-numeric: tabular-nums;
+            flex-shrink: 0;
+            padding-left: 12px;
+            letter-spacing: -0.01em;
+        }
+        .leaderboard .lb-score small {
+            display: block;
+            font-family: var(--font-sans);
+            font-size: 10px;
+            color: var(--text-dim);
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            text-align: right;
+        }
+
+        /* ─── FILTERS ────────────────────────────── */
         .controls {
             display: flex; gap: var(--gap); align-items: flex-end;
-            padding: 32px 0 24px; flex-wrap: wrap;
+            padding: 0 0 20px; flex-wrap: wrap;
         }
         .control-group { display: flex; flex-direction: column; gap: 8px; }
         .control-label {
-            font-size: 11px; font-weight: 600; color: var(--text-muted);
-            text-transform: uppercase; letter-spacing: 0.1em;
+            font-size: 10.5px; font-weight: 700; color: var(--text-dim);
+            text-transform: uppercase; letter-spacing: 0.14em;
         }
         .select {
             background: var(--bg-card); color: var(--text);
@@ -116,7 +352,7 @@
             padding: 10px 36px 10px 14px;
             font-size: 15px; font-family: inherit; font-weight: 500;
             min-width: 180px; cursor: pointer; appearance: none;
-            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='%238B7E6E' d='M6 8L0 0h12z'/></svg>");
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='%235A544B' d='M6 8L0 0h12z'/></svg>");
             background-repeat: no-repeat;
             background-position: calc(100% - 14px) 50%;
             transition: border-color 0.15s ease, box-shadow 0.15s ease;
@@ -126,7 +362,6 @@
             outline: none; border-color: var(--accent);
             box-shadow: 0 0 0 3px var(--accent-tint);
         }
-
         .btn {
             border: 1px solid var(--border-strong);
             border-radius: var(--radius);
@@ -142,25 +377,25 @@
             box-shadow: 0 0 0 3px var(--accent-tint);
         }
         .btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
         #refreshBtn {
-            background: var(--accent); color: #ffffff;
+            background: var(--accent); color: #FFFFFF;
             border-color: var(--accent);
         }
         #refreshBtn:hover:not(:disabled) {
             background: var(--accent-hover); border-color: var(--accent-hover);
         }
 
-        /* ─── Meta + Status ──────────────────────────── */
         .meta {
             color: var(--text-muted); font-size: 13px;
-            font-weight: 500; padding: 4px 0 20px;
+            font-weight: 500; padding: 0 0 20px;
         }
         .status {
             padding: 32px; text-align: center;
             border: 1px solid var(--border); border-radius: var(--radius);
             background: var(--bg-card); color: var(--text-muted);
             font-size: 14px;
+            font-family: var(--font-serif);
+            font-style: italic;
         }
         .status.error {
             color: var(--accent-hover);
@@ -168,53 +403,55 @@
             background: var(--accent-tint);
         }
 
-        /* ─── Grid ───────────────────────────────────── */
+        /* ─── GRID + CARDS ──────────────────────── */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
             gap: var(--gap); padding-bottom: 40px;
         }
 
-        /* ─── Card ───────────────────────────────────── */
         .card {
             display: flex; flex-direction: column; gap: 14px;
             background: var(--bg-card);
-            border: 1px solid var(--border); border-radius: var(--radius);
+            border: 1px solid var(--border); border-radius: var(--radius-lg);
             padding: 20px; position: relative;
             transition: all 0.2s ease;
-            box-shadow: 0 1px 2px rgba(58, 50, 41, 0.04);
+            box-shadow: 0 1px 2px rgba(26, 26, 26, 0.03);
         }
         .card:hover {
             border-color: var(--border-strong);
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(58, 50, 41, 0.08);
+            box-shadow: 0 10px 24px rgba(26, 26, 26, 0.08);
         }
 
         .score-badge {
             position: absolute; top: 16px; right: 16px; z-index: 2;
-            background: var(--accent); color: #ffffff;
+            background: var(--accent); color: #FFFFFF;
             padding: 4px 12px; border-radius: 999px;
-            font-size: 12px; font-weight: 700; letter-spacing: 0.02em;
-            box-shadow: 0 2px 6px rgba(230, 57, 70, 0.28);
+            font-size: 12px; font-weight: 700; letter-spacing: 0.03em;
+            box-shadow: 0 2px 6px rgba(139, 0, 0, 0.22);
+            font-variant-numeric: tabular-nums;
         }
 
         .card-head { display: flex; gap: 14px; align-items: flex-start; }
         .avatar {
-            width: 44px; height: 44px; border-radius: 8px;
+            width: 44px; height: 44px; border-radius: 6px;
             flex-shrink: 0; background: var(--bg-elevated);
             border: 1px solid var(--border);
         }
         .card-title-block { min-width: 0; flex: 1; padding-right: 72px; }
         .card-title {
             margin: 0; font-size: 16px; font-weight: 600;
-            letter-spacing: -0.01em; line-height: 1.3;
+            letter-spacing: -0.008em; line-height: 1.3;
             overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+            font-family: var(--font-serif);
         }
         .card-title a { color: var(--text); text-decoration: none; transition: color 0.15s ease; }
         .card-title a:hover { color: var(--accent); }
         .card-owner {
             color: var(--text-muted); font-size: 13px;
             margin: 4px 0 0; font-weight: 400;
+            font-style: italic;
         }
 
         .card-desc {
@@ -229,7 +466,7 @@
             display: inline-block; padding: 4px 11px; border-radius: 999px;
             font-size: 11px; font-weight: 600;
             background: var(--bg-elevated); color: var(--text-muted);
-            border: 1px solid var(--border); letter-spacing: 0.02em;
+            border: 1px solid var(--border); letter-spacing: 0.03em;
         }
         .badge.category { color: var(--text); border-color: var(--border-strong); }
 
@@ -237,8 +474,8 @@
             display: flex; gap: 18px; flex-wrap: wrap;
             font-size: 12px; color: var(--text-muted); padding-top: 2px;
         }
-        .stat { display: flex; align-items: center; gap: 5px; }
-        .stat > span:first-child { color: var(--text-dim); font-size: 13px; }
+        .stat-item { display: flex; align-items: center; gap: 5px; }
+        .stat-item > span:first-child { color: var(--text-dim); font-size: 13px; }
         .stat-value {
             color: var(--text); font-weight: 600;
             font-variant-numeric: tabular-nums;
@@ -252,26 +489,54 @@
 
         .btn-ai {
             margin-left: auto;
-            padding: 6px 14px;
-            font-size: 12px;
-            font-weight: 600;
-            background: transparent;
-            color: var(--accent);
+            padding: 6px 14px; font-size: 12px; font-weight: 600;
+            background: transparent; color: var(--accent);
             border: 1px solid var(--accent);
             border-radius: var(--radius);
             transition: all 0.15s ease;
+            font-family: inherit;
         }
         .btn-ai:hover:not(:disabled) {
             background: var(--accent);
-            color: #ffffff;
-            box-shadow: 0 2px 6px rgba(230, 57, 70, 0.28);
+            color: #FFFFFF;
+            box-shadow: 0 2px 6px rgba(139, 0, 0, 0.25);
         }
-        .btn-ai:focus-visible {
-            outline: none;
-            box-shadow: 0 0 0 3px var(--accent-tint);
+        .btn-ai:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--accent-tint); }
+
+        /* ─── SKELETON ───────────────────────────── */
+        .card.skeleton { pointer-events: none; }
+        .sk-line {
+            height: 12px; border-radius: 3px;
+            background: linear-gradient(90deg, var(--bg-elevated) 0%, #EDE7D8 50%, var(--bg-elevated) 100%);
+            background-size: 200% 100%;
+            animation: sk-shimmer 1.4s ease-in-out infinite;
+        }
+        .sk-line.sk-title { height: 18px; width: 60%; }
+        .sk-line.sk-owner { height: 11px; width: 30%; margin-top: 8px; }
+        .sk-line.sk-desc  { height: 11px; width: 100%; }
+        .sk-line.sk-desc2 { height: 11px; width: 85%; }
+        .sk-line.sk-desc3 { height: 11px; width: 70%; }
+        .sk-line.sk-stat  { height: 12px; width: 40%; margin-top: 4px; }
+        .sk-avatar {
+            width: 44px; height: 44px; border-radius: 6px;
+            background: linear-gradient(90deg, var(--bg-elevated) 0%, #EDE7D8 50%, var(--bg-elevated) 100%);
+            background-size: 200% 100%;
+            animation: sk-shimmer 1.4s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+        .sk-chart {
+            height: 200px;
+            border-radius: var(--radius);
+            background: linear-gradient(90deg, var(--bg-elevated) 0%, #EDE7D8 50%, var(--bg-elevated) 100%);
+            background-size: 200% 100%;
+            animation: sk-shimmer 1.4s ease-in-out infinite;
+        }
+        @keyframes sk-shimmer {
+            0%   { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
 
-        /* ─── Pagination ─────────────────────────────── */
+        /* ─── PAGINATION ─────────────────────────── */
         .pagination {
             display: flex; align-items: center; justify-content: center;
             gap: 16px; padding: 24px 0 56px;
@@ -281,9 +546,10 @@
             color: var(--text-muted); font-size: 14px; font-weight: 500;
             min-width: 140px; text-align: center;
             font-variant-numeric: tabular-nums;
+            font-style: italic;
         }
 
-        /* ─── Footer ─────────────────────────────────── */
+        /* ─── FOOTER ─────────────────────────────── */
         .app-footer {
             border-top: 1px solid var(--border);
             color: var(--text-dim); font-size: 13px;
@@ -291,44 +557,44 @@
             padding-bottom: calc(28px + var(--safe-bottom));
             margin-top: 24px;
         }
-        .app-footer p { margin: 0; text-align: center; }
+        .app-footer p {
+            margin: 0; text-align: center;
+            font-style: italic;
+            font-family: var(--font-serif);
+        }
 
-        /* ─── Modal ──────────────────────────────────── */
+        /* ─── MODAL ──────────────────────────────── */
         .modal {
             position: fixed; inset: 0; z-index: 100;
             display: flex; align-items: center; justify-content: center;
             padding: 24px;
         }
         .modal[hidden] { display: none; }
-
         .modal-backdrop {
             position: absolute; inset: 0;
-            background: rgba(58, 50, 41, 0.45);
+            background: rgba(26, 26, 26, 0.45);
             backdrop-filter: blur(2px);
             animation: fadeIn 0.15s ease;
         }
-
         .modal-panel {
             position: relative;
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 12px;
+            border-radius: 10px;
             width: 100%;
             max-width: 720px;
             max-height: calc(100vh - 48px);
             max-height: calc(100dvh - 48px);
             display: flex;
             flex-direction: column;
-            box-shadow: 0 20px 60px rgba(58, 50, 41, 0.20);
+            box-shadow: 0 20px 60px rgba(26, 26, 26, 0.25);
             animation: slideUp 0.2s ease;
         }
-
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(12px); }
             to   { opacity: 1; transform: translateY(0); }
         }
-
         .modal-head {
             display: flex; align-items: flex-start; justify-content: space-between;
             gap: 16px; padding: 20px 24px 16px;
@@ -336,56 +602,46 @@
         }
         .modal-eyebrow {
             margin: 0 0 4px;
-            font-size: 11px; font-weight: 600;
+            font-size: 11px; font-weight: 700;
             color: var(--accent);
-            text-transform: uppercase; letter-spacing: 0.1em;
+            text-transform: uppercase; letter-spacing: 0.14em;
         }
         .modal-title {
             margin: 0;
-            font-size: 18px; font-weight: 700;
-            letter-spacing: -0.01em; color: var(--text);
+            font-family: var(--font-serif);
+            font-size: 20px; font-weight: 700;
+            letter-spacing: -0.005em; color: var(--text);
             word-break: break-word;
         }
         .btn-close {
             flex-shrink: 0;
-            width: 34px; height: 34px;
-            padding: 0;
+            width: 34px; height: 34px; padding: 0;
             display: flex; align-items: center; justify-content: center;
             font-size: 22px; line-height: 1;
-            background: transparent;
-            color: var(--text-muted);
-            border: 1px solid var(--border);
-            border-radius: 8px;
+            background: transparent; color: var(--text-muted);
+            border: 1px solid var(--border); border-radius: 6px;
             cursor: pointer;
             transition: all 0.15s ease;
         }
         .btn-close:hover {
-            background: var(--bg-hover);
-            color: var(--text);
+            background: var(--bg-hover); color: var(--text);
             border-color: var(--border-strong);
         }
-
         .modal-body {
             padding: 22px 24px;
-            overflow-y: auto;
-            overscroll-behavior: contain;
+            overflow-y: auto; overscroll-behavior: contain;
             -webkit-overflow-scrolling: touch;
-            color: var(--text);
-            font-size: 15px;
-            line-height: 1.65;
-            white-space: pre-wrap;
-            word-break: break-word;
+            color: var(--text); font-size: 15px; line-height: 1.65;
+            white-space: pre-wrap; word-break: break-word;
         }
-
         .modal-body.loading {
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
             gap: 16px; min-height: 200px;
-            color: var(--text-muted);
-            text-align: center;
+            color: var(--text-muted); text-align: center;
+            font-style: italic;
         }
         .modal-body.error { color: var(--accent-hover); }
-
         .spinner {
             width: 32px; height: 32px;
             border: 3px solid var(--border);
@@ -394,162 +650,103 @@
             animation: spin 0.8s linear infinite;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-
         .modal-foot {
             padding: 12px 24px 18px;
             border-top: 1px solid var(--border);
-            color: var(--text-dim);
-            font-size: 12px;
+            color: var(--text-dim); font-size: 12px;
             text-align: right;
+            font-style: italic;
         }
 
-        /* ═════════════════════════════════════════════════
-           RESPONSIVE — multi-tier
-           ═════════════════════════════════════════════════ */
-
-        /* Small laptops / large tablets */
+        /* ─── RESPONSIVE ─────────────────────────── */
         @media (max-width: 1024px) {
             :root { --pad-x: 24px; }
             .grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
         }
 
-        /* Tablets portrait */
         @media (max-width: 768px) {
             :root { --gap: 16px; --pad-x: 20px; }
             .header-inner { padding-top: 18px; padding-bottom: 18px; }
-            .brand { font-size: 22px; }
-            .tagline { font-size: 13px; }
-            .controls { padding: 24px 0 16px; }
+            .brand { font-size: 24px; }
             .grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+            .charts-grid { grid-template-columns: 1fr; }
+            .stats-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .card { padding: 18px; }
             .modal { padding: 16px; }
         }
 
-        /* Phones (large) */
         @media (max-width: 640px) {
             body { font-size: 14px; }
             :root { --gap: 14px; --pad-x: 16px; }
-
-            /* Header — stack, tighter */
             .header-inner {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 4px;
-                padding-top: 14px;
-                padding-bottom: 14px;
+                flex-direction: column; align-items: flex-start;
+                gap: 4px; padding-top: 14px; padding-bottom: 14px;
             }
-            .brand { font-size: 20px; }
+            .brand { font-size: 22px; }
             .tagline { font-size: 12px; }
 
-            /* Controls — 2-col selects + full-width Refresh */
-            .controls {
-                flex-direction: row;
-                flex-wrap: wrap;
-                align-items: stretch;
-                gap: 10px;
-                padding: 18px 0 12px;
-            }
-            .control-group {
-                flex: 1 1 calc(50% - 5px);
-                min-width: 0;
-                gap: 6px;
-            }
-            .control-label { font-size: 10px; letter-spacing: 0.08em; }
+            .section { padding-top: 28px; }
+            .section-head h2 { font-size: 19px; }
+            .stat-number { font-size: 30px; }
+            .stat-tile { padding: 16px 18px; }
+
+            .controls { flex-direction: row; flex-wrap: wrap; align-items: stretch; gap: 10px; padding: 0 0 14px; }
+            .control-group { flex: 1 1 calc(50% - 5px); min-width: 0; gap: 6px; }
+            .control-label { font-size: 10px; letter-spacing: 0.1em; }
             .select {
-                width: 100%;
-                min-width: 0;
-                font-size: 16px;            /* prevent iOS auto-zoom */
-                padding: 12px 34px 12px 12px;
-                min-height: 46px;           /* touch target */
+                width: 100%; min-width: 0; font-size: 16px;
+                padding: 12px 34px 12px 12px; min-height: 46px;
             }
-            #refreshBtn {
-                flex: 1 1 100%;
-                min-height: 46px;
-                font-size: 14px;
-            }
+            #refreshBtn { flex: 1 1 100%; min-height: 46px; font-size: 14px; }
 
-            /* Meta */
             .meta { font-size: 12px; padding: 2px 0 12px; }
-
-            /* Grid — single column */
-            .grid {
-                grid-template-columns: 1fr;
-                gap: 12px;
-                padding-bottom: 24px;
-            }
-
-            /* Card — tighter on phone */
-            .card { padding: 16px; gap: 12px; border-radius: 10px; }
+            .grid { grid-template-columns: 1fr; gap: 12px; padding-bottom: 24px; }
+            .card { padding: 16px; gap: 12px; border-radius: 8px; }
             .card:active { transform: scale(0.995); }
-
-            .score-badge {
-                top: 12px; right: 12px;
-                padding: 3px 10px;
-                font-size: 11px;
-            }
-
+            .score-badge { top: 12px; right: 12px; padding: 3px 10px; font-size: 11px; }
             .card-head { gap: 12px; }
-            .avatar { width: 38px; height: 38px; border-radius: 6px; }
+            .avatar { width: 38px; height: 38px; border-radius: 5px; }
             .card-title-block { padding-right: 56px; }
             .card-title { font-size: 15px; }
             .card-owner { font-size: 12px; }
-            .card-desc {
-                font-size: 13px;
-                -webkit-line-clamp: 4;
-                min-height: 3.6em;
-            }
-
+            .card-desc { font-size: 13px; -webkit-line-clamp: 4; min-height: 3.6em; }
             .badge { font-size: 10px; padding: 3px 9px; }
-
             .card-stats { gap: 12px; font-size: 11px; }
-            .stat > span:first-child { font-size: 12px; }
-
+            .stat-item > span:first-child { font-size: 12px; }
             .card-foot { padding-top: 12px; gap: 6px; }
-
             .btn-ai {
-                margin-left: 0;
-                flex: 1 1 100%;
-                padding: 10px 14px;
-                font-size: 13px;
+                margin-left: 0; flex: 1 1 100%;
+                padding: 10px 14px; font-size: 13px;
                 min-height: 42px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
+                display: flex; align-items: center; justify-content: center;
             }
 
-            /* Pagination — page info on top, buttons below */
             .pagination {
-                flex-wrap: wrap;
-                gap: 10px;
+                flex-wrap: wrap; gap: 10px;
                 padding: 18px 0 28px;
                 padding-bottom: calc(28px + var(--safe-bottom));
             }
-            .page-info {
-                order: -1;
-                min-width: 100%;
-                font-size: 13px;
-                padding-bottom: 4px;
-            }
-            .pagination .btn {
-                flex: 1 1 auto;
-                min-height: 46px;
-                padding: 10px 14px;
-                font-size: 13px;
-            }
+            .page-info { order: -1; min-width: 100%; font-size: 13px; padding-bottom: 4px; }
+            .pagination .btn { flex: 1 1 auto; min-height: 46px; padding: 10px 14px; font-size: 13px; }
 
-            /* Footer */
+            .chart-panel { padding: 18px; }
+            .chart-panel h3 { font-size: 15px; }
+            .leaderboard-panel { padding: 18px; }
+            .leaderboard-panel h3 { font-size: 15px; }
+            .leaderboard li { padding: 8px 6px; gap: 10px; }
+            .rank { width: 24px; height: 24px; font-size: 11px; }
+            .leaderboard .lb-avatar { width: 28px; height: 28px; }
+            .leaderboard .lb-name { font-size: 12.5px; }
+            .leaderboard .lb-score { font-size: 17px; }
+
             .app-footer { font-size: 12px; padding: 20px 0; }
 
-            /* Modal — fullscreen, safe-area aware */
             .modal { padding: 0; }
             .modal-panel {
-                max-width: 100%;
-                width: 100%;
-                height: 100vh;
-                height: 100dvh;
+                max-width: 100%; width: 100%;
+                height: 100vh; height: 100dvh;
                 max-height: 100dvh;
-                border-radius: 0;
-                border: none;
+                border-radius: 0; border: none;
             }
             .modal-head {
                 padding: 16px 18px 12px;
@@ -557,51 +754,40 @@
                 padding-left: calc(18px + var(--safe-left));
                 padding-right: calc(18px + var(--safe-right));
             }
-            .modal-eyebrow { font-size: 10px; }
-            .modal-title { font-size: 16px; }
-            .btn-close {
-                width: 40px; height: 40px;
-                font-size: 24px;
-            }
+            .modal-title { font-size: 17px; }
+            .btn-close { width: 40px; height: 40px; font-size: 24px; }
             .modal-body {
                 padding: 18px;
                 padding-left: calc(18px + var(--safe-left));
                 padding-right: calc(18px + var(--safe-right));
-                font-size: 15px;
-                line-height: 1.6;
+                font-size: 15px; line-height: 1.6;
             }
             .modal-foot {
                 padding: 12px 18px;
                 padding-bottom: calc(12px + var(--safe-bottom));
                 font-size: 11px;
             }
-            .spinner { width: 36px; height: 36px; }
         }
 
-        /* Small phones */
         @media (max-width: 380px) {
             :root { --pad-x: 12px; --gap: 10px; }
-            .brand { font-size: 18px; }
+            .brand { font-size: 20px; }
             .tagline { font-size: 11px; }
-            .control-group { flex: 1 1 100%; }   /* stack selects */
+            .stats-row { grid-template-columns: 1fr; }
+            .control-group { flex: 1 1 100%; }
             .card { padding: 14px; gap: 10px; }
             .score-badge { padding: 2px 8px; font-size: 10px; }
             .card-title { font-size: 14px; }
             .card-title-block { padding-right: 48px; }
             .card-desc { font-size: 12.5px; }
-            .badge { font-size: 9.5px; padding: 2px 8px; }
-            .card-stats { gap: 10px; font-size: 10.5px; }
-            .btn-ai { font-size: 12px; padding: 9px 12px; min-height: 40px; }
             .pagination .btn { font-size: 12px; padding: 10px 10px; }
-            .page-info { font-size: 12px; }
         }
 
-        /* Touch devices — remove hover-only effects that feel wrong on tap */
         @media (hover: none) and (pointer: coarse) {
             .card:hover {
                 transform: none;
                 border-color: var(--border);
-                box-shadow: 0 1px 2px rgba(58, 50, 41, 0.04);
+                box-shadow: 0 1px 2px rgba(26, 26, 26, 0.03);
             }
             .btn:hover:not(:disabled) {
                 background: var(--bg-card);
@@ -609,32 +795,18 @@
             }
             #refreshBtn:hover:not(:disabled) { background: var(--accent); }
             .btn-ai:hover:not(:disabled) {
-                background: transparent;
-                color: var(--accent);
-                box-shadow: none;
+                background: transparent; color: var(--accent); box-shadow: none;
             }
             .btn-close:hover {
-                background: transparent;
-                color: var(--text-muted);
+                background: transparent; color: var(--text-muted);
                 border-color: var(--border);
             }
-            /* Provide tap feedback instead */
             .card:active { border-color: var(--border-strong); }
             .btn:active:not(:disabled) { background: var(--bg-hover); }
             #refreshBtn:active:not(:disabled) { background: var(--accent-hover); }
             .btn-ai:active:not(:disabled) { background: var(--accent-tint); }
         }
 
-        /* Landscape phone — reduce vertical chrome */
-        @media (max-height: 500px) and (orientation: landscape) {
-            .header-inner { padding-top: 10px; padding-bottom: 10px; }
-            .brand { font-size: 18px; }
-            .tagline { display: none; }
-            .controls { padding: 12px 0 8px; }
-            .grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
-        }
-
-        /* Accessibility — respect reduced motion */
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
@@ -642,10 +814,12 @@
                 transition-duration: 0.01ms !important;
                 scroll-behavior: auto !important;
             }
+            .sk-line, .sk-avatar, .sk-chart { animation: none; }
         }
     </style>
 </head>
 <body>
+
 <header class="app-header">
     <div class="container header-inner">
         <h1 class="brand"><span class="brand-mark">Git</span>Status</h1>
@@ -654,35 +828,105 @@
 </header>
 
 <main class="container">
-    <section class="controls" aria-label="Filters">
-        <div class="control-group">
-            <label for="categorySelect" class="control-label">Category</label>
-            <select id="categorySelect" class="select">
-                <option value="">All categories</option>
-            </select>
-        </div>
 
-        <div class="control-group">
-            <label for="pageSizeSelect" class="control-label">Per page</label>
-            <select id="pageSizeSelect" class="select">
-                <option value="12">12</option>
-                <option value="20" selected>20</option>
-                <option value="50">50</option>
-            </select>
+    <!-- ═══════════ OVERVIEW / STAT TILES ═══════════ -->
+    <section class="section" aria-labelledby="overviewHeading">
+        <div class="section-head">
+            <h2 id="overviewHeading">Overview</h2>
+            <span class="section-sub">Live counts from the current index</span>
         </div>
-
-        <button id="refreshBtn" class="btn" type="button">Refresh</button>
+        <div class="stats-row" id="statsRow">
+            <div class="stat-tile">
+                <p class="stat-label">Repositories</p>
+                <p class="stat-number" id="statTotal">—</p>
+                <p class="stat-sub" id="statTotalSub">Indexed</p>
+            </div>
+            <div class="stat-tile">
+                <p class="stat-label">Categories</p>
+                <p class="stat-number" id="statCategories">—</p>
+                <p class="stat-sub">Distinct domains</p>
+            </div>
+            <div class="stat-tile">
+                <p class="stat-label">Avg Stars</p>
+                <p class="stat-number accent" id="statAvgStars">—</p>
+                <p class="stat-sub">On this page</p>
+            </div>
+            <div class="stat-tile">
+                <p class="stat-label">Top Language</p>
+                <p class="stat-number" id="statTopLang">—</p>
+                <p class="stat-sub" id="statTopLangSub">On this page</p>
+            </div>
+        </div>
     </section>
 
-    <section id="meta" class="meta" aria-live="polite"></section>
-    <section id="status" class="status" aria-live="polite" hidden></section>
-    <section id="grid" class="grid" aria-label="Repositories"></section>
+    <!-- ═══════════ TRENDS ═══════════ -->
+    <section class="section" aria-labelledby="trendsHeading">
+        <div class="section-head">
+            <h2 id="trendsHeading">Trends</h2>
+            <span class="section-sub">Distribution across the current view</span>
+        </div>
 
-    <nav id="pagination" class="pagination" aria-label="Pagination" hidden>
-        <button id="prevBtn" class="btn" type="button">← Previous</button>
-        <span id="pageInfo" class="page-info"></span>
-        <button id="nextBtn" class="btn" type="button">Next →</button>
-    </nav>
+        <div class="charts-grid">
+            <div class="chart-panel">
+                <h3>Top Languages</h3>
+                <p class="chart-desc">Most frequent primary languages</p>
+                <div id="langChart">
+                    <div class="sk-chart"></div>
+                </div>
+            </div>
+
+            <div class="chart-panel">
+                <h3>Categories</h3>
+                <p class="chart-desc">Repositories grouped by domain</p>
+                <div id="catChart">
+                    <div class="sk-chart"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="leaderboard-panel">
+            <h3>Top Repositories</h3>
+            <p class="chart-desc">Highest attention scores on this page</p>
+            <ol class="leaderboard" id="leaderboard">
+                <li><span class="rank">—</span><div class="lb-info"><div class="lb-name">Loading…</div></div></li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- ═══════════ REPOSITORIES ═══════════ -->
+    <section class="section" aria-labelledby="reposHeading">
+        <div class="section-head">
+            <h2 id="reposHeading">Repositories</h2>
+        </div>
+
+        <div class="controls" aria-label="Filters">
+            <div class="control-group">
+                <label for="categorySelect" class="control-label">Category</label>
+                <select id="categorySelect" class="select">
+                    <option value="">All categories</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="pageSizeSelect" class="control-label">Per page</label>
+                <select id="pageSizeSelect" class="select">
+                    <option value="12">12</option>
+                    <option value="20" selected>20</option>
+                    <option value="50">50</option>
+                </select>
+            </div>
+            <button id="refreshBtn" class="btn" type="button">Refresh</button>
+        </div>
+
+        <div id="meta" class="meta" aria-live="polite"></div>
+        <div id="status" class="status" aria-live="polite" hidden></div>
+        <div id="grid" class="grid" aria-label="Repositories"></div>
+
+        <nav id="pagination" class="pagination" aria-label="Pagination" hidden>
+            <button id="prevBtn" class="btn" type="button">← Previous</button>
+            <span id="pageInfo" class="page-info"></span>
+            <button id="nextBtn" class="btn" type="button">Next →</button>
+        </nav>
+    </section>
 </main>
 
 <footer class="app-footer">
@@ -713,12 +957,13 @@
     'use strict';
 
     (() => {
-        const API_BASE  = '/api/repos';
-        const AI_BASE   = '/api/ai';
+        const API_BASE = '/api/repos';
+        const AI_BASE  = '/api/ai';
 
         const state = {
             page: 0, size: 20, category: '',
             total: 0, items: [], loading: false,
+            categoriesCount: 0,
         };
 
         const aiCache = new Map();
@@ -726,38 +971,45 @@
         const el = {
             categorySelect: document.getElementById('categorySelect'),
             pageSizeSelect: document.getElementById('pageSizeSelect'),
-            refreshBtn:    document.getElementById('refreshBtn'),
-            meta:          document.getElementById('meta'),
-            status:        document.getElementById('status'),
-            grid:          document.getElementById('grid'),
-            pagination:    document.getElementById('pagination'),
-            prevBtn:       document.getElementById('prevBtn'),
-            nextBtn:       document.getElementById('nextBtn'),
-            pageInfo:      document.getElementById('pageInfo'),
+            refreshBtn:     document.getElementById('refreshBtn'),
+            meta:           document.getElementById('meta'),
+            status:         document.getElementById('status'),
+            grid:           document.getElementById('grid'),
+            pagination:     document.getElementById('pagination'),
+            prevBtn:        document.getElementById('prevBtn'),
+            nextBtn:        document.getElementById('nextBtn'),
+            pageInfo:       document.getElementById('pageInfo'),
 
-            aiModal:       document.getElementById('aiModal'),
-            aiModalTitle:  document.getElementById('aiModalTitle'),
-            aiModalBody:   document.getElementById('aiModalBody'),
-            aiModalMeta:   document.getElementById('aiModalMeta'),
-            aiModalClose:  document.getElementById('aiModalClose'),
+            statTotal:      document.getElementById('statTotal'),
+            statCategories: document.getElementById('statCategories'),
+            statAvgStars:   document.getElementById('statAvgStars'),
+            statTopLang:    document.getElementById('statTopLang'),
+            statTopLangSub: document.getElementById('statTopLangSub'),
+
+            langChart:      document.getElementById('langChart'),
+            catChart:       document.getElementById('catChart'),
+            leaderboard:    document.getElementById('leaderboard'),
+
+            aiModal:      document.getElementById('aiModal'),
+            aiModalTitle: document.getElementById('aiModalTitle'),
+            aiModalBody:  document.getElementById('aiModalBody'),
+            aiModalMeta:  document.getElementById('aiModalMeta'),
+            aiModalClose: document.getElementById('aiModalClose'),
         };
 
+        /* ─── HELPERS ─────────────────────────── */
         function formatCount(n) {
             if (n == null) return '—';
             if (n < 1000) return String(n);
             if (n < 1_000_000) return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
             return (n / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
         }
-
         function formatDate(iso) {
             if (!iso) return '—';
             const d = new Date(iso);
             if (Number.isNaN(d.getTime())) return '—';
-            return d.toLocaleDateString(undefined, {
-                year: 'numeric', month: 'short', day: 'numeric',
-            });
+            return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
         }
-
         function formatDateTime(iso) {
             if (!iso) return '';
             const d = new Date(iso);
@@ -767,7 +1019,6 @@
                 hour: '2-digit', minute: '2-digit',
             });
         }
-
         function elem(tag, opts = {}) {
             const node = document.createElement(tag);
             if (opts.className) node.className = opts.className;
@@ -779,11 +1030,21 @@
             }
             return node;
         }
-
+        function escapeHtml(s) {
+            return String(s == null ? '' : s)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+        function truncate(s, n) {
+            s = String(s || '');
+            return s.length > n ? s.slice(0, n - 1) + '…' : s;
+        }
         function setStatus(message, isError = false) {
             if (!message) {
-                el.status.hidden = true;
-                el.status.textContent = '';
+                el.status.hidden = true; el.status.textContent = '';
                 el.status.classList.remove('error');
                 return;
             }
@@ -792,13 +1053,181 @@
             el.status.classList.toggle('error', isError);
         }
 
-        function stat(symbol, value) {
-            const wrap = elem('span', { className: 'stat' });
+        /* ─── CARD STAT SYMBOLS ───────────────── */
+        function statItem(symbol, value) {
+            const wrap = elem('span', { className: 'stat-item' });
             wrap.appendChild(elem('span', { text: symbol, attrs: { 'aria-hidden': 'true' } }));
             wrap.appendChild(elem('span', { className: 'stat-value', text: value }));
             return wrap;
         }
 
+        /* ─── SKELETON GRID ───────────────────── */
+        function renderSkeleton(count = 6) {
+            el.grid.replaceChildren();
+            const frag = document.createDocumentFragment();
+            for (let i = 0; i < count; i++) {
+                const card = elem('article', { className: 'card skeleton' });
+                const head = elem('div', { className: 'card-head' });
+                head.appendChild(elem('div', { className: 'sk-avatar' }));
+                const tb = elem('div', { className: 'card-title-block' });
+                tb.appendChild(elem('div', { className: 'sk-line sk-title' }));
+                tb.appendChild(elem('div', { className: 'sk-line sk-owner' }));
+                head.appendChild(tb);
+                card.appendChild(head);
+                card.appendChild(elem('div', { className: 'sk-line sk-desc' }));
+                card.appendChild(elem('div', { className: 'sk-line sk-desc2' }));
+                card.appendChild(elem('div', { className: 'sk-line sk-desc3' }));
+                card.appendChild(elem('div', { className: 'sk-line sk-stat' }));
+                frag.appendChild(card);
+            }
+            el.grid.appendChild(frag);
+        }
+        function renderChartSkeleton() {
+            el.langChart.innerHTML = '<div class="sk-chart"></div>';
+            el.catChart.innerHTML  = '<div class="sk-chart"></div>';
+            el.leaderboard.innerHTML = '<li><span class="rank">—</span><div class="lb-info"><div class="lb-name">Loading…</div></div></li>';
+        }
+
+        /* ─── SVG CHARTS ──────────────────────── */
+        function renderLanguageChart(items) {
+            const counts = new Map();
+            for (const r of items) {
+                if (!r.language) continue;
+                counts.set(r.language, (counts.get(r.language) || 0) + 1);
+            }
+            const data = [...counts.entries()]
+                .map(([name, count]) => ({ name, count }))
+                .sort((a, b) => b.count - a.count)
+                .slice(0, 6);
+
+            if (!data.length) {
+                el.langChart.innerHTML = '<p class="chart-empty">No language data available.</p>';
+                return;
+            }
+
+            const rowH   = 34;
+            const padTop = 8;
+            const w      = 600;
+            const labelW = 130;
+            const valueW = 44;
+            const barW   = w - labelW - valueW - 20;
+            const h      = padTop * 2 + rowH * data.length;
+            const max    = data[0].count;
+
+            let svg = `<svg class="chart-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Top languages">`;
+            data.forEach((d, i) => {
+                const y = padTop + i * rowH;
+                const bw = Math.max(4, (d.count / max) * barW);
+                svg += `
+                    <text class="chart-label" x="0" y="${y + 20}">${escapeHtml(truncate(d.name, 16))}</text>
+                    <rect class="chart-bar-track" x="${labelW}" y="${y + 8}" width="${barW}" height="18" rx="3"/>
+                    <rect class="chart-bar" x="${labelW}" y="${y + 8}" width="${bw}" height="18" rx="3"/>
+                    <text class="chart-value" x="${w - valueW}" y="${y + 21}" text-anchor="end">${d.count}</text>
+                `;
+            });
+            svg += `</svg>`;
+            el.langChart.innerHTML = svg;
+        }
+
+        function renderCategoryChart(items) {
+            const counts = new Map();
+            for (const r of items) {
+                if (!r.category) continue;
+                counts.set(r.category, (counts.get(r.category) || 0) + 1);
+            }
+            const data = [...counts.entries()]
+                .map(([name, count]) => ({ name, count }))
+                .sort((a, b) => b.count - a.count)
+                .slice(0, 6);
+
+            if (!data.length) {
+                el.catChart.innerHTML = '<p class="chart-empty">No category data available.</p>';
+                return;
+            }
+
+            const rowH   = 34;
+            const padTop = 8;
+            const w      = 600;
+            const labelW = 130;
+            const valueW = 44;
+            const barW   = w - labelW - valueW - 20;
+            const h      = padTop * 2 + rowH * data.length;
+            const max    = data[0].count;
+
+            let svg = `<svg class="chart-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Categories">`;
+            data.forEach((d, i) => {
+                const y = padTop + i * rowH;
+                const bw = Math.max(4, (d.count / max) * barW);
+                svg += `
+                    <text class="chart-label" x="0" y="${y + 20}">${escapeHtml(truncate(d.name, 16))}</text>
+                    <rect class="chart-bar-track" x="${labelW}" y="${y + 8}" width="${barW}" height="18" rx="3"/>
+                    <rect class="chart-bar" x="${labelW}" y="${y + 8}" width="${bw}" height="18" rx="3"/>
+                    <text class="chart-value" x="${w - valueW}" y="${y + 21}" text-anchor="end">${d.count}</text>
+                `;
+            });
+            svg += `</svg>`;
+            el.catChart.innerHTML = svg;
+        }
+
+        /* ─── LEADERBOARD ─────────────────────── */
+        function renderLeaderboard(items) {
+            const ranked = [...items]
+                .filter(r => typeof r.attentionScore === 'number' || typeof r.score === 'number')
+                .sort((a, b) => {
+                    const sa = typeof a.attentionScore === 'number' ? a.attentionScore : a.score;
+                    const sb = typeof b.attentionScore === 'number' ? b.attentionScore : b.score;
+                    return sb - sa;
+                })
+                .slice(0, 5);
+
+            if (!ranked.length) {
+                el.leaderboard.innerHTML = '<li><div class="lb-info"><div class="lb-name">No ranked repositories on this page.</div></div></li>';
+                return;
+            }
+
+            el.leaderboard.innerHTML = ranked.map((r, i) => {
+                const score = typeof r.attentionScore === 'number' ? r.attentionScore : r.score;
+                const stars = formatCount(r.stars);
+                const lang  = r.language || '';
+                const sub   = [stars + ' ★', lang].filter(Boolean).join(' · ');
+                return `
+                    <li>
+                        <span class="rank">${i + 1}</span>
+                        <img class="lb-avatar" src="${escapeHtml(r.avatarUrl || '')}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.visibility='hidden'"/>
+                        <div class="lb-info">
+                            <div class="lb-name"><a href="${escapeHtml(r.htmlUrl || '#')}" target="_blank" rel="noopener noreferrer">${escapeHtml(r.fullName || r.name || 'unknown')}</a></div>
+                            <div class="lb-sub">${escapeHtml(sub)}</div>
+                        </div>
+                        <div class="lb-score">${escapeHtml(formatCount(score))}<small>score</small></div>
+                    </li>
+                `;
+            }).join('');
+        }
+
+        /* ─── STAT TILES ──────────────────────── */
+        function renderStats() {
+            el.statTotal.textContent = state.total > 0 ? formatCount(state.total) : '—';
+            el.statCategories.textContent = state.categoriesCount > 0 ? state.categoriesCount : '—';
+
+            const items = state.items || [];
+
+            const starsValues = items.map(r => r.stars).filter(n => typeof n === 'number');
+            const avgStars = starsValues.length
+                ? Math.round(starsValues.reduce((a, b) => a + b, 0) / starsValues.length)
+                : null;
+            el.statAvgStars.textContent = avgStars != null ? formatCount(avgStars) : '—';
+
+            const langCounts = new Map();
+            for (const r of items) if (r.language) langCounts.set(r.language, (langCounts.get(r.language) || 0) + 1);
+            let topLang = '—', topCount = 0;
+            for (const [lang, c] of langCounts) if (c > topCount) { topCount = c; topLang = lang; }
+            el.statTopLang.textContent = topLang;
+            el.statTopLangSub.textContent = items.length
+                ? `On this page · ${items.length} repos`
+                : 'On this page';
+        }
+
+        /* ─── CARD ────────────────────────────── */
         function renderCard(repo) {
             const card = elem('article', { className: 'card' });
 
@@ -832,11 +1261,10 @@
 
             const titleBlock = elem('div', { className: 'card-title-block' });
             const title = elem('h2', { className: 'card-title' });
-            const link = elem('a', {
+            title.appendChild(elem('a', {
                 text: repo.name || repo.fullName || 'unknown',
                 attrs: { href: repo.htmlUrl || '#', target: '_blank', rel: 'noopener noreferrer' },
-            });
-            title.appendChild(link);
+            }));
             titleBlock.appendChild(title);
             titleBlock.appendChild(elem('p', {
                 className: 'card-owner',
@@ -851,19 +1279,15 @@
             }));
 
             const stats = elem('div', { className: 'card-stats' });
-            stats.appendChild(stat('★', formatCount(repo.stars)));
-            stats.appendChild(stat('⑂', formatCount(repo.forks)));
-            stats.appendChild(stat('◎', formatCount(repo.issues)));
-            stats.appendChild(stat('⟳', formatDate(repo.updatedAt)));
+            stats.appendChild(statItem('★', formatCount(repo.stars)));
+            stats.appendChild(statItem('⑂', formatCount(repo.forks)));
+            stats.appendChild(statItem('◎', formatCount(repo.issues)));
+            stats.appendChild(statItem('⟳', formatDate(repo.updatedAt)));
             card.appendChild(stats);
 
             const foot = elem('div', { className: 'card-foot' });
-            if (repo.category) {
-                foot.appendChild(elem('span', { className: 'badge category', text: repo.category }));
-            }
-            if (repo.language) {
-                foot.appendChild(elem('span', { className: 'badge', text: repo.language }));
-            }
+            if (repo.category) foot.appendChild(elem('span', { className: 'badge category', text: repo.category }));
+            if (repo.language) foot.appendChild(elem('span', { className: 'badge', text: repo.language }));
             if (typeof repo.score === 'number') {
                 foot.appendChild(elem('span', {
                     className: 'badge',
@@ -878,10 +1302,7 @@
                 attrs: { type: 'button', title: 'Generate an AI summary of this repository' },
             });
             aiBtn.addEventListener('click', () => {
-                openAiAnalysis(
-                    repo.githubId,
-                    repo.fullName || repo.name || 'Repository'
-                );
+                openAiAnalysis(repo.githubId, repo.fullName || repo.name || 'Repository');
             });
             foot.appendChild(aiBtn);
 
@@ -917,14 +1338,12 @@
             el.nextBtn.disabled = state.page + 1 >= totalPages;
         }
 
-        function setModalState(state_) {
+        /* ─── MODAL ───────────────────────────── */
+        function setModalState(s) {
             el.aiModalBody.classList.remove('loading', 'error');
             el.aiModalBody.replaceChildren();
-            if (state_ === 'loading' || state_ === 'error') {
-                el.aiModalBody.classList.add(state_);
-            }
+            if (s === 'loading' || s === 'error') el.aiModalBody.classList.add(s);
         }
-
         function renderLoading() {
             setModalState('loading');
             el.aiModalBody.appendChild(elem('div', { className: 'spinner' }));
@@ -933,57 +1352,43 @@
             }));
             el.aiModalMeta.textContent = '';
         }
-
         function renderError(message) {
             setModalState('error');
             el.aiModalBody.appendChild(elem('p', { text: message }));
             el.aiModalMeta.textContent = '';
         }
-
         function renderAnalysis(text, generatedAt, fromCache) {
             setModalState('default');
             el.aiModalBody.textContent = text || '(empty response)';
             const when = generatedAt ? formatDateTime(generatedAt) : '';
             el.aiModalMeta.textContent =
-                (fromCache ? 'Loaded from cache · ' : 'Generated · ') +
-                (when ? when : 'just now');
+                (fromCache ? 'Loaded from cache · ' : 'Generated · ') + (when || 'just now');
         }
-
         function openModal(title) {
             el.aiModalTitle.textContent = title;
             el.aiModal.hidden = false;
             document.body.style.overflow = 'hidden';
         }
-
         function closeModal() {
             el.aiModal.hidden = true;
             document.body.style.overflow = '';
             setModalState('default');
         }
-
         async function openAiAnalysis(githubId, fullName) {
             openModal(fullName);
-
             if (aiCache.has(githubId)) {
                 const hit = aiCache.get(githubId);
                 renderAnalysis(hit.text, hit.generatedAt, true);
                 return;
             }
-
             renderLoading();
-
             try {
                 const res = await fetch(`${AI_BASE}/explain/${githubId}`, {
                     headers: { Accept: 'application/json' },
                 });
-
                 if (!res.ok) {
                     if (res.status === 500) {
-                        renderError(
-                            'The AI service could not produce an analysis for this repository. ' +
-                            'This usually means the README is not cached yet. ' +
-                            'Try refreshing the page or running the README cache first.'
-                        );
+                        renderError('The AI service could not produce an analysis for this repository. This usually means the README is not cached yet. Try refreshing the page or running the README cache first.');
                     } else if (res.status === 404) {
                         renderError('This repository was not found.');
                     } else {
@@ -991,18 +1396,9 @@
                     }
                     return;
                 }
-
                 const data = await res.json();
-
-                const text = typeof data.repositoryExplainer === 'string'
-                    ? data.repositoryExplainer
-                    : '';
-
-                if (!text) {
-                    renderError('The AI returned an empty response.');
-                    return;
-                }
-
+                const text = typeof data.repositoryExplainer === 'string' ? data.repositoryExplainer : '';
+                if (!text) { renderError('The AI returned an empty response.'); return; }
                 aiCache.set(githubId, { text, generatedAt: data.generatedAt || null });
                 renderAnalysis(text, data.generatedAt || null, false);
             } catch (err) {
@@ -1010,14 +1406,13 @@
                 renderError('Network error. Is the backend running?');
             }
         }
-
         el.aiModalClose.addEventListener('click', closeModal);
-        el.aiModal.querySelector('.modal-backdrop')
-            .addEventListener('click', closeModal);
+        el.aiModal.querySelector('.modal-backdrop').addEventListener('click', closeModal);
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && !el.aiModal.hidden) closeModal();
         });
 
+        /* ─── LOADING ─────────────────────────── */
         async function loadCategories() {
             try {
                 const res = await fetch(`${API_BASE}/categories`, {
@@ -1025,13 +1420,13 @@
                 });
                 if (!res.ok) return;
                 const cats = await res.json();
+                state.categoriesCount = Array.isArray(cats) ? cats.length : 0;
                 const current = el.categorySelect.value;
                 for (const c of cats) {
-                    el.categorySelect.appendChild(
-                        elem('option', { text: c, attrs: { value: c } })
-                    );
+                    el.categorySelect.appendChild(elem('option', { text: c, attrs: { value: c } }));
                 }
                 el.categorySelect.value = current;
+                renderStats();
             } catch (err) {
                 console.warn('Failed to load categories', err);
             }
@@ -1043,7 +1438,8 @@
 
             el.prevBtn.disabled = true;
             el.nextBtn.disabled = true;
-
+            renderSkeleton(Math.min(state.size, 6));
+            renderChartSkeleton();
             setStatus('Loading…');
 
             const params = new URLSearchParams({
@@ -1067,6 +1463,8 @@
                     } catch { /* not JSON */ }
                     state.items = []; state.total = 0;
                     renderGrid([]); renderMeta(0);
+                    renderLanguageChart([]); renderCategoryChart([]); renderLeaderboard([]);
+                    renderStats();
                     setStatus(detail, true);
                     return;
                 }
@@ -1077,9 +1475,15 @@
 
                 renderGrid(state.items);
                 renderMeta(state.total);
+                renderLanguageChart(state.items);
+                renderCategoryChart(state.items);
+                renderLeaderboard(state.items);
+                renderStats();
             } catch (err) {
                 state.items = []; state.total = 0;
                 renderGrid([]); renderMeta(0);
+                renderLanguageChart([]); renderCategoryChart([]); renderLeaderboard([]);
+                renderStats();
                 setStatus('Network error. Is the backend running?', true);
                 console.error(err);
             } finally {
@@ -1088,23 +1492,21 @@
             }
         }
 
+        /* ─── EVENTS ──────────────────────────── */
         el.categorySelect.addEventListener('change', () => {
             state.category = el.categorySelect.value;
             state.page = 0;
             loadRepos();
         });
-
         el.pageSizeSelect.addEventListener('change', () => {
             state.size = Number(el.pageSizeSelect.value) || 20;
             state.page = 0;
             loadRepos();
         });
-
         el.refreshBtn.addEventListener('click', () => {
             loadCategories();
             loadRepos();
         });
-
         el.prevBtn.addEventListener('click', () => {
             if (state.loading) return;
             if (state.page > 0) {
@@ -1113,7 +1515,6 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         });
-
         el.nextBtn.addEventListener('click', () => {
             if (state.loading) return;
             const totalPages = Math.max(1, Math.ceil(state.total / state.size));
@@ -1124,6 +1525,7 @@
             }
         });
 
+        /* ─── INIT ────────────────────────────── */
         loadCategories();
         loadRepos();
     })();
