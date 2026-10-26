@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Ignore private application configuration
+/src/main/resources/application.yml
+/src/main/resources/application-dev.yml
